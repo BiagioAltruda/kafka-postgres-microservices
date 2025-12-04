@@ -1,0 +1,11 @@
+com/Anagrafe/entities/events/DocumentRequestEvent.class
+com/Anagrafe/entities/events/AccountCreationEvent.class
+com/Anagrafe/entities/events/DocumentCreationEvent.class
+com/Anagrafe/entities/enums/EventType.class
+com/Anagrafe/entities/BaseUser.class
+com/Anagrafe/entities/ChangeLog.class
+com/Anagrafe/entities/events/AccountRequestEvent.class
+com/Anagrafe/entities/events/DocumentUpdateEvent.class
+com/Anagrafe/entities/Document.class
+com/Anagrafe/entities/events/BaseEvent.class
+com/Anagrafe/entities/events/DocumentChangeLogEvent.class
