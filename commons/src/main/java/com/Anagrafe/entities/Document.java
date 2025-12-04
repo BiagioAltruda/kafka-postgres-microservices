@@ -2,7 +2,7 @@ package com.Anagrafe.entities;
 
 import java.time.LocalDateTime;
 
-public class Document<U extends BaseUser> {
+public class Document<U extends BaseUser> implements Loggable {
 
   private U owner;
   private String documentType;
@@ -46,6 +46,12 @@ public class Document<U extends BaseUser> {
 
   public void setExpirationDate(LocalDateTime expirationDate) {
     this.expirationDate = expirationDate;
+  }
+
+  @Override
+  public String getChangeLog() {
+    return "Document owner: " + owner.getUsername() + ". Created at: " + creationDate + ". Expiration date: "
+        + expirationDate;
   }
 
 }

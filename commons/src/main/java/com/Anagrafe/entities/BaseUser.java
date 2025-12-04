@@ -1,6 +1,9 @@
 package com.Anagrafe.entities;
 
-public class BaseUser {
+import jakarta.persistence.MappedSuperclass;
+
+@MappedSuperclass
+public class BaseUser implements Loggable {
   protected String username;
   protected String password;
   protected String clearance;
@@ -36,5 +39,10 @@ public class BaseUser {
 
   public void setClearance(String clearance) {
     this.clearance = clearance;
+  }
+
+  @Override
+  public String getChangeLog() {
+    return "Username: " + username + ". Clearance: " + clearance;
   }
 }
