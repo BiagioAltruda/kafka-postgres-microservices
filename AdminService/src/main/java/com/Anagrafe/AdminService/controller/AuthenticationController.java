@@ -1,5 +1,6 @@
 package com.Anagrafe.AdminService.controller;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 import org.springframework.http.ResponseEntity;
@@ -20,6 +21,10 @@ import com.Anagrafe.AdminService.model.AdminUser;
 import com.Anagrafe.AdminService.model.AuthenticationRequest;
 import com.Anagrafe.AdminService.model.AuthenticationResponse;
 import com.Anagrafe.AdminService.service.UserService;
+import com.Anagrafe.entities.ChangeLog;
+import com.Anagrafe.entities.Loggable;
+import com.Anagrafe.entities.BaseUser;
+import com.Anagrafe.entities.enums.EventType;
 
 @RequestMapping("/auth")
 @RestController
@@ -29,21 +34,25 @@ public class AuthenticationController {
   private final AuthenticationManager authenticationManager;
   private final UserService userService;
   private final KafkaTemplate<String, String> kafkaTemplate;
+  private final KafkaTemplate<String, ChangeLog> kafkaLogTemplate;
 
   public AuthenticationController(
       UserService userService,
       AuthenticationManager authenticationManager,
-      KafkaTemplate<String, String> kafkaTemplate) {
+      KafkaTemplate<String, String> kafkaTemplate,
+      KafkaTemplate<String, ChangeLog> kafkaLogTemplate) {
     this.authenticationManager = authenticationManager;
     this.userService = userService;
     this.kafkaTemplate = kafkaTemplate;
+    this.kafkaLogTemplate = kafkaLogTemplate;
   }
 
   @PostMapping("/register")
   public ResponseEntity<AuthenticationResponse> registerUser(@RequestBody AuthenticationRequest request) {
     Optional<AdminUser> user = userService.findUserByUsername(request.getUsername());
     if (user.isEmpty()) {
-      userService.registerUser(request.getUsername(), request.getPassword(), request.getClearance());
+      user = Optional
+          .of(userService.registerUser(request.getUsername(), request.getPassword(), request.getClearance()));
       UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
           request.getUsername(), request.getPassword());
       Authentication auth = authenticationManager.authenticate(authenticationToken);
@@ -51,7 +60,9 @@ public class AuthenticationController {
       String jwtToken = userService.loginUser(request.getUsername(), request.getPassword()).get();
 
       // publish message to kafka topic
-      kafkaTemplate.send("accounts", request.getUsername());
+      // kafkaTemplate.send("accounts", request.getUsername());
+      kafkaLogTemplate.send("account-creation", createChangeLog("account-creation", "User created", user.get()));
+
       return ResponseEntity
           .ok(new AuthenticationResponse(true, "User created successfully", null, jwtToken));
     }
@@ -90,9 +101,25 @@ public class AuthenticationController {
     return SecurityContextHolder.getContext().getAuthentication();
   }
 
-  @KafkaListener(topics = "accounts", groupId = "accounts")
-  public void userCreated(String msg) {
-    System.out.println("Created user with name: " + msg);
+  private ChangeLog createChangeLog(String topic, String message, Loggable loggable) {
+
+    ChangeLog log = new ChangeLog();
+    log.setGeneratorEvent(EventType.fromString(topic));
+
+    // copy AdminService-specific entity into commons BaseUser so LogService can
+    // deserialize it
+    if (loggable instanceof BaseUser) {
+      BaseUser original = (BaseUser) loggable;
+      BaseUser copy = new BaseUser(original.getUsername(), null, original.getClearance());
+      log.setModifiedEntity(Optional.of(copy));
+    } else {
+      log.setModifiedEntity(Optional.of(loggable));
+    }
+
+    log.setMessage(message);
+    log.setTimestamp(LocalDateTime.now());
+
+    return log;
   }
 
 }

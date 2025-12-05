@@ -18,4 +18,16 @@ public enum EventType {
   public String getEventType() {
     return eventType;
   }
+
+  public static EventType fromString(String eventType) {
+    if (eventType == null || eventType.isBlank()) {
+      throw new IllegalArgumentException("Event type cannot be null or empty");
+    }
+    String normalizedEvent = eventType.toUpperCase().replaceAll("-", "_");
+    try {
+      return EventType.valueOf(normalizedEvent);
+    } catch (IllegalArgumentException e) {
+      throw new IllegalArgumentException("Invalid event type: " + eventType, e);
+    }
+  }
 }

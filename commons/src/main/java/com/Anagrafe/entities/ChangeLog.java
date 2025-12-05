@@ -4,17 +4,25 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 
 import com.Anagrafe.entities.enums.EventType;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.Anagrafe.serialization.ChangeLogSerializer;
 
-@JsonSerialize(using = ChangeLogSerializer.class)
 public class ChangeLog {
 
+  @JsonProperty("id")
   private Long id;
+  @JsonProperty("generatorEvent")
   private EventType generatorEvent;
+  @JsonProperty("modifiedEntity")
   private Optional<Loggable> modifiedEntity;
+  @JsonProperty("message")
   private String message;
+  @JsonProperty("timestamp")
   private LocalDateTime timestamp;
+
+  public ChangeLog() {
+  }
 
   public ChangeLog(
       Long id, EventType generatorEvent, Optional<Loggable> modifiedEntity,

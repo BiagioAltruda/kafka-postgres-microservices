@@ -92,6 +92,17 @@
       <artifactId>commons</artifactId>
       <version>1.0.0</version>
     </dependency>
+    <!-- https://mvnrepository.com/artifact/org.apache.kafka/kafka -->
+    <dependency>
+      <groupId>org.apache.kafka</groupId>
+      <artifactId>kafka_2.13</artifactId>
+      <version>4.0.0</version>
+    </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.datatype</groupId>
+      <artifactId>jackson-datatype-jdk8</artifactId>
+
+    </dependency>
   </dependencies>
 
   <build>
