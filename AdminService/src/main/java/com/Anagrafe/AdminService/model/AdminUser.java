@@ -22,6 +22,10 @@ import lombok.Setter;
 @Entity
 @Access(AccessType.FIELD)
 @Table(name = "users")
+/*
+ * TODO: Refactor into a BaseUser wrapper to persist into commons.
+ * look at PersistableLog and ChangeLog for reference
+ */
 public class AdminUser extends BaseUser {
 
   @Id
