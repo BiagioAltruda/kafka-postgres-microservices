@@ -1,6 +1,5 @@
 package com.Anagrafe.entities;
 
-import java.io.IOException;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -37,8 +36,11 @@ public class ChangeLog implements Serializable {
   @Column(name = "generator_event")
   private String generatorEventString;
 
+  // @Transient
+  // private Optional<Loggable> modifiedEntity;
+  // @Column(name = "modified_entity_id", nullable = true)
   @Transient
-  private Optional<Loggable> modifiedEntity;
+  private Optional<Persistable> modifiedEntity;
   @Column(name = "modified_entity_id", nullable = true)
   private Long modifiedEntityId;
   @JsonProperty("message")
@@ -47,7 +49,8 @@ public class ChangeLog implements Serializable {
   private LocalDateTime timestamp;
 
   public ChangeLog(
-      EventType generatorEvent, Optional<Loggable> modifiedEntity,
+      // EventType generatorEvent, Optional<Loggable> modifiedEntity,
+      EventType generatorEvent, Optional<Persistable> modifiedEntity,
       String message, LocalDateTime timestamp) {
 
     this.generatorEventString = generatorEvent.toString();
@@ -57,11 +60,29 @@ public class ChangeLog implements Serializable {
     if (modifiedEntity.isPresent()) {
       this.modifiedEntityId = extractId(modifiedEntity).orElse(Long.valueOf(0));
     }
+    System.out.println("AFTER CONSTRUCTOR");
+    System.out.println(this.toString());
   }
 
-  private Optional<Long> extractId(Optional<Loggable> modifiedEntity) {
+  // private Optional<Long> extractId(Optional<Loggable> modifiedEntity) {
+  private Optional<Long> extractId(Optional<Persistable> modifiedEntity) {
+    // Casting into BaseUser is safe because we know that the entity is a BaseUser
+    // this way we can use it's methods and fields
+    if (modifiedEntity.isEmpty()) {
+      System.out.println("Entity missing");
+      return Optional.empty();
+    }
+    if (modifiedEntity.get() instanceof BaseUser) {
+      BaseUser tmpEntity;
+      tmpEntity = (BaseUser) modifiedEntity.get();
+      System.out.println("FROM CONSTRUCTOR");
+      System.out.println(tmpEntity.toString());
 
-    return Optional.ofNullable(modifiedEntity.get().getId());
+      return Optional.ofNullable(tmpEntity.getId());
+    } else {
+      return Optional.empty();
+    }
+
   }
 
   @Override

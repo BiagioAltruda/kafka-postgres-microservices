@@ -5,7 +5,6 @@ import org.springframework.stereotype.Component;
 
 import com.Anagrafe.LogService.service.ChangeLogService;
 import com.Anagrafe.entities.ChangeLog;
-import com.Anagrafe.entities.Loggable;
 
 @Component
 public class KafkaConsumer {
@@ -18,9 +17,6 @@ public class KafkaConsumer {
 
   @KafkaListener(topics = "account-creation", groupId = "accounts")
   public void listen(ChangeLog log) {
-    Loggable entity = log.getModifiedEntity().get();
-    System.out.println(entity.getChangeLog());
-    System.out.println(log.toString());
 
     changeLogService.save(log);
 

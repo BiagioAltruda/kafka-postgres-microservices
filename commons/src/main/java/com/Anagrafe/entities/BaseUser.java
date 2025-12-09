@@ -13,7 +13,7 @@ import jakarta.persistence.Table;
 @Setter
 @Entity
 @Table(name = "users")
-public class BaseUser implements Loggable {
+public class BaseUser extends Persistable implements Loggable {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;

@@ -8,6 +8,7 @@
 /home/biagio/Work/Anagrafe/commons/src/main/java/com/Anagrafe/entities/events/AccountRequestEvent.java
 /home/biagio/Work/Anagrafe/commons/src/main/java/com/Anagrafe/entities/events/AccountCreationEvent.java
 /home/biagio/Work/Anagrafe/commons/src/main/java/com/Anagrafe/entities/events/DocumentRequestEvent.java
+/home/biagio/Work/Anagrafe/commons/src/main/java/com/Anagrafe/entities/Persistable.java
 /home/biagio/Work/Anagrafe/commons/src/main/java/com/Anagrafe/serialization/ChangeLogSerializer.java
 /home/biagio/Work/Anagrafe/commons/src/main/java/com/Anagrafe/entities/Loggable.java
 /home/biagio/Work/Anagrafe/commons/src/main/java/com/Anagrafe/entities/events/BaseEvent.java

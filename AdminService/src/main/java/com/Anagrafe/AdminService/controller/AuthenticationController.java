@@ -104,6 +104,7 @@ public class AuthenticationController {
     ChangeLog log = new ChangeLog(
         EventType.fromString(topic), Optional.of(user),
         message, LocalDateTime.now());
+    System.out.println("FROM CONTROLLER");
     System.out.println(log.toString());
 
     return log;
