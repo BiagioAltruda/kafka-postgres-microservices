@@ -36,7 +36,7 @@ public class PersistableLog {
   public PersistableLog(ChangeLog log) {
     this.id = log.getId();
     this.generatorEvent = log.getGeneratorEvent().getEventType();
-    this.modifiedEntityId = extractBaseObjectId(log);
+    this.modifiedEntityId = Long.parseLong("1");
     this.message = log.getMessage();
     this.timestamp = log.getTimestamp();
   }
