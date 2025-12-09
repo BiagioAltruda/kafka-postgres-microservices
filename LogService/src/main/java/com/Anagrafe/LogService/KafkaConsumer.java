@@ -3,7 +3,6 @@ package com.Anagrafe.LogService;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 
-import com.Anagrafe.LogService.model.PersistableLog;
 import com.Anagrafe.LogService.service.ChangeLogService;
 import com.Anagrafe.entities.ChangeLog;
 import com.Anagrafe.entities.Loggable;
@@ -21,8 +20,9 @@ public class KafkaConsumer {
   public void listen(ChangeLog log) {
     Loggable entity = log.getModifiedEntity().get();
     System.out.println(entity.getChangeLog());
+    System.out.println(log.toString());
 
-    changeLogService.save(new PersistableLog(log));
+    changeLogService.save(log);
 
   }
 }

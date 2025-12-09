@@ -5,11 +5,11 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.Anagrafe.AdminService.model.AdminUser;
+import com.Anagrafe.entities.BaseUser;
 
 @Repository
-public interface UserRepository extends JpaRepository<AdminUser, Long> {
+public interface UserRepository extends JpaRepository<BaseUser, Long> {
 
-  Optional<AdminUser> findByUsername(String username);
+  Optional<BaseUser> findByUsername(String username);
 
 }

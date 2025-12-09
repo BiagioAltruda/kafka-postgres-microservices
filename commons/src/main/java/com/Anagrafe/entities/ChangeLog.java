@@ -1,77 +1,74 @@
 package com.Anagrafe.entities;
 
+import java.io.IOException;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
 import com.Anagrafe.entities.enums.EventType;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.Anagrafe.serialization.ChangeLogSerializer;
 
-public class ChangeLog {
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@Entity
+@Table(name = "logs")
+public class ChangeLog implements Serializable {
 
   @JsonProperty("id")
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
   @JsonProperty("generatorEvent")
+  @Transient
   private EventType generatorEvent;
-  @JsonProperty("modifiedEntity")
+
+  @Column(name = "generator_event")
+  private String generatorEventString;
+
+  @Transient
   private Optional<Loggable> modifiedEntity;
+  @Column(name = "modified_entity_id", nullable = true)
+  private Long modifiedEntityId;
   @JsonProperty("message")
   private String message;
   @JsonProperty("timestamp")
   private LocalDateTime timestamp;
 
-  public ChangeLog() {
-  }
-
   public ChangeLog(
-      Long id, EventType generatorEvent, Optional<Loggable> modifiedEntity,
+      EventType generatorEvent, Optional<Loggable> modifiedEntity,
       String message, LocalDateTime timestamp) {
-    this.id = id;
-    this.generatorEvent = generatorEvent;
+
+    this.generatorEventString = generatorEvent.toString();
     this.message = message;
     this.timestamp = timestamp;
-    this.modifiedEntity = modifiedEntity;
+    // this.modifiedEntity = modifiedEntity;
+    if (modifiedEntity.isPresent()) {
+      this.modifiedEntityId = extractId(modifiedEntity).orElse(Long.valueOf(0));
+    }
   }
 
-  public Long getId() {
-    return id;
+  private Optional<Long> extractId(Optional<Loggable> modifiedEntity) {
+
+    return Optional.ofNullable(modifiedEntity.get().getId());
   }
 
-  public void setId(Long id) {
-    this.id = id;
-  }
+  @Override
+  public String toString() {
 
-  public EventType getGeneratorEvent() {
-    return generatorEvent;
+    return "id = " + getId() + " event = " + getGeneratorEvent() + " entity = "
+        + getModifiedEntity() + " message = "
+        + getMessage() + " timestamp = " + getTimestamp();
   }
-
-  public void setGeneratorEvent(EventType generatorEvent) {
-    this.generatorEvent = generatorEvent;
-  }
-
-  public Optional<Loggable> getModifiedEntity() {
-    return modifiedEntity;
-  }
-
-  public void setModifiedEntity(Optional<Loggable> modifiedEntity) {
-    this.modifiedEntity = modifiedEntity;
-  }
-
-  public String getMessage() {
-    return message;
-  }
-
-  public void setMessage(String message) {
-    this.message = message;
-  }
-
-  public LocalDateTime getTimestamp() {
-    return timestamp;
-  }
-
-  public void setTimestamp(LocalDateTime timestamp) {
-    this.timestamp = timestamp;
-  }
-
 }

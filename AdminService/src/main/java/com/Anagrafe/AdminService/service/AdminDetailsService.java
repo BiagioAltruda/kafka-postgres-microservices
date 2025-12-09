@@ -6,8 +6,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.Anagrafe.AdminService.model.AdminUser;
 import com.Anagrafe.AdminService.repository.UserRepository;
+import com.Anagrafe.entities.BaseUser;
 
 @Service
 public class AdminDetailsService implements UserDetailsService {
@@ -20,7 +20,7 @@ public class AdminDetailsService implements UserDetailsService {
 
   @Override
   public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-    AdminUser user = userRepository.findByUsername(username)
+    BaseUser user = userRepository.findByUsername(username)
         .orElseThrow(() -> new UsernameNotFoundException("Username Not Found"));
 
     return User

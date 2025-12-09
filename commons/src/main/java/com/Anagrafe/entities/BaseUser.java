@@ -1,12 +1,35 @@
 package com.Anagrafe.entities;
 
-import jakarta.persistence.MappedSuperclass;
+import jakarta.persistence.Transient;
+import lombok.Getter;
+import lombok.Setter;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
-@MappedSuperclass
+@Getter
+@Setter
+@Entity
+@Table(name = "users")
 public class BaseUser implements Loggable {
-  protected String username;
-  protected String password;
-  protected String clearance;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
+  private String username;
+  private String password;
+  private String clearance;
+
+  @Transient
+  private String token;
+
+  public BaseUser(Long id, String username, String password, String clearance) {
+    this.id = id;
+    this.username = username;
+    this.password = password;
+    this.clearance = clearance;
+  }
 
   public BaseUser(String username, String password, String clearance) {
     this.username = username;
@@ -17,32 +40,14 @@ public class BaseUser implements Loggable {
   public BaseUser() {
   }
 
-  public String getUsername() {
-    return username;
-  }
-
-  public void setUsername(String username) {
-    this.username = username;
-  }
-
-  public String getPassword() {
-    return password;
-  }
-
-  public void setPassword(String password) {
-    this.password = password;
-  }
-
-  public String getClearance() {
-    return clearance;
-  }
-
-  public void setClearance(String clearance) {
-    this.clearance = clearance;
-  }
-
   @Override
   public String getChangeLog() {
     return "Username: " + username + ". Clearance: " + clearance;
+  }
+
+  @Override
+  public String toString() {
+    return "id = " + getId() + " username = " + getUsername() + " password = " + getPassword() + " clearance = "
+        + getClearance();
   }
 }

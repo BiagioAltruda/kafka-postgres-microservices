@@ -30,4 +30,9 @@ public enum EventType {
       throw new IllegalArgumentException("Invalid event type: " + eventType, e);
     }
   }
+
+  @Override
+  public String toString() {
+    return super.toString();
+  }
 }

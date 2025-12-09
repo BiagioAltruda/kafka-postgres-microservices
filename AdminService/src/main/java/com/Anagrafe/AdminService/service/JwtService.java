@@ -13,7 +13,7 @@ import javax.crypto.SecretKey;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
-import com.Anagrafe.AdminService.model.AdminUser;
+import com.Anagrafe.entities.BaseUser;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -37,7 +37,7 @@ public class JwtService {
 
   // method to generate token based on the username, and creation date, encoded in
   // Base64
-  public String generateToken(AdminUser user) {
+  public String generateToken(BaseUser user) {
     Map<String, Object> claims = new HashMap<>();
 
     return Jwts.builder()

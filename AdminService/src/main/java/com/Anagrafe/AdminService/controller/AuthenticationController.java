@@ -4,7 +4,6 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -17,13 +16,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.Anagrafe.AdminService.model.AdminUser;
 import com.Anagrafe.AdminService.model.AuthenticationRequest;
 import com.Anagrafe.AdminService.model.AuthenticationResponse;
 import com.Anagrafe.AdminService.service.UserService;
-import com.Anagrafe.entities.ChangeLog;
-import com.Anagrafe.entities.Loggable;
 import com.Anagrafe.entities.BaseUser;
+import com.Anagrafe.entities.ChangeLog;
 import com.Anagrafe.entities.enums.EventType;
 
 @RequestMapping("/auth")
@@ -49,7 +46,7 @@ public class AuthenticationController {
 
   @PostMapping("/register")
   public ResponseEntity<AuthenticationResponse> registerUser(@RequestBody AuthenticationRequest request) {
-    Optional<AdminUser> user = userService.findUserByUsername(request.getUsername());
+    Optional<BaseUser> user = userService.findUserByUsername(request.getUsername());
     if (user.isEmpty()) {
       user = Optional
           .of(userService.registerUser(request.getUsername(), request.getPassword(), request.getClearance()));
@@ -58,10 +55,9 @@ public class AuthenticationController {
       Authentication auth = authenticationManager.authenticate(authenticationToken);
       SecurityContextHolder.getContext().setAuthentication(auth);
       String jwtToken = userService.loginUser(request.getUsername(), request.getPassword()).get();
-
+      ChangeLog log = createChangeLog("account-creation", "User created", user.get());
       // publish message to kafka topic
-      // kafkaTemplate.send("accounts", request.getUsername());
-      kafkaLogTemplate.send("account-creation", createChangeLog("account-creation", "User created", user.get()));
+      kafkaLogTemplate.send("account-creation", log);
 
       return ResponseEntity
           .ok(new AuthenticationResponse(true, "User created successfully", null, jwtToken));
@@ -101,23 +97,14 @@ public class AuthenticationController {
     return SecurityContextHolder.getContext().getAuthentication();
   }
 
-  private ChangeLog createChangeLog(String topic, String message, Loggable loggable) {
+  private ChangeLog createChangeLog(String topic, String message, BaseUser user) {
 
-    ChangeLog log = new ChangeLog();
-    log.setGeneratorEvent(EventType.fromString(topic));
+    System.out.println(user.toString());
 
-    // copy AdminService-specific entity into commons BaseUser so LogService can
-    // deserialize it
-    if (loggable instanceof BaseUser) {
-      BaseUser original = (BaseUser) loggable;
-      BaseUser copy = new BaseUser(original.getUsername(), null, original.getClearance());
-      log.setModifiedEntity(Optional.of(copy));
-    } else {
-      log.setModifiedEntity(Optional.of(loggable));
-    }
-
-    log.setMessage(message);
-    log.setTimestamp(LocalDateTime.now());
+    ChangeLog log = new ChangeLog(
+        EventType.fromString(topic), Optional.of(user),
+        message, LocalDateTime.now());
+    System.out.println(log.toString());
 
     return log;
   }

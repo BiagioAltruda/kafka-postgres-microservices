@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 
 public class Document<U extends BaseUser> implements Loggable {
 
+  private Long id;
   private U owner;
   private String documentType;
   private LocalDateTime creationDate;
@@ -14,6 +15,14 @@ public class Document<U extends BaseUser> implements Loggable {
     this.documentType = documentType;
     this.creationDate = creationDate;
     this.expirationDate = expirationDate;
+  }
+
+  public Long getId() {
+    return id;
+  }
+
+  public void setId(Long id) {
+    this.id = id;
   }
 
   public U getOwner() {

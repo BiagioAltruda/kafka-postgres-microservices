@@ -6,8 +6,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.Anagrafe.AdminService.model.AdminUser;
 import com.Anagrafe.AdminService.repository.UserRepository;
+import com.Anagrafe.entities.BaseUser;
 
 @Service
 public class UserService {
@@ -22,8 +22,8 @@ public class UserService {
     this.jwtService = jwtService;
   }
 
-  public AdminUser registerUser(String username, String password, String clearance) {
-    AdminUser user = new AdminUser();
+  public BaseUser registerUser(String username, String password, String clearance) {
+    BaseUser user = new BaseUser();
     user.setUsername(username);
     user.setPassword(passwordEncoder.encode(password));
     user.setClearance(clearance);
@@ -33,7 +33,7 @@ public class UserService {
 
   public Optional<String> loginUser(String username, String password) throws UsernameNotFoundException {
 
-    AdminUser user = findUserByUsername(username)
+    BaseUser user = findUserByUsername(username)
         .orElseThrow(() -> new UsernameNotFoundException("Username Not found"));
     if (passwordEncoder.matches(password, user.getPassword())) {
       return Optional.of(jwtService.generateToken(user));
@@ -42,7 +42,7 @@ public class UserService {
     }
   }
 
-  public Optional<AdminUser> findUserByUsername(String username) {
+  public Optional<BaseUser> findUserByUsername(String username) {
     return userRepository.findByUsername(username);
   }
 }
