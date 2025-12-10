@@ -1,13 +1,18 @@
 package com.Anagrafe.entities;
 
-import jakarta.persistence.Transient;
-import lombok.Getter;
-import lombok.Setter;
+import java.util.List;
+
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
+import lombok.Getter;
+import lombok.Setter;
 
 @Getter
 @Setter
@@ -16,10 +21,14 @@ import jakarta.persistence.Table;
 public class BaseUser extends Persistable implements Loggable {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "user_id")
   private Long id;
   private String username;
   private String password;
   private String clearance;
+
+  @OneToMany(fetch = FetchType.LAZY, mappedBy = "owner")
+  private List<Document> documents;
 
   @Transient
   private String token;

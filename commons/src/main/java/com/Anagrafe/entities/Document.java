@@ -2,65 +2,46 @@ package com.Anagrafe.entities;
 
 import java.time.LocalDateTime;
 
-public class Document<U extends BaseUser> implements Loggable {
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Entity
+@Table(name = "documents")
+public class Document extends Persistable {
+
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
-  private U owner;
+
+  @ManyToOne
+  @JoinColumn(name = "user_id")
+  private BaseUser owner;
+  @Column(name = "document_type")
   private String documentType;
+  @Column(name = "creation_date")
   private LocalDateTime creationDate;
+  @Column(name = "expiration_date")
   private LocalDateTime expirationDate;
 
-  public Document(U owner, String documentType, LocalDateTime creationDate, LocalDateTime expirationDate) {
+  public Document(BaseUser owner, String documentType, LocalDateTime creationDate, LocalDateTime expirationDate) {
     this.owner = owner;
     this.documentType = documentType;
     this.creationDate = creationDate;
     this.expirationDate = expirationDate;
-  }
-
-  public Long getId() {
-    return id;
-  }
-
-  public void setId(Long id) {
-    this.id = id;
-  }
-
-  public U getOwner() {
-    return owner;
-  }
-
-  public void setOwner(U owner) {
-    this.owner = owner;
-  }
-
-  public String getDocumentType() {
-    return documentType;
-  }
-
-  public void setDocumentType(String documentType) {
-    this.documentType = documentType;
-  }
-
-  public LocalDateTime getCreationDate() {
-    return creationDate;
-  }
-
-  public void setCreationDate(LocalDateTime creationDate) {
-    this.creationDate = creationDate;
-  }
-
-  public LocalDateTime getExpirationDate() {
-    return expirationDate;
-  }
-
-  public void setExpirationDate(LocalDateTime expirationDate) {
-    this.expirationDate = expirationDate;
-  }
-
-  @Override
-  public String getChangeLog() {
-    return "Document owner: " + owner.getUsername() + ". Created at: " + creationDate + ". Expiration date: "
-        + expirationDate;
   }
 
 }
