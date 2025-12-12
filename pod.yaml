@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: anagrafe
+
+spec:
+  containers:
+  - name: security
+    image: biagioam/security:latest
+    ports:
+        - containerPort: 8080
+  - name: log-service
+    image: biagioam/log_service:latest
+    ports:
+        - containerPort: 8081
+  - name: kafka-server
+    image: apache/kafka:4.1.1
+    ports:
+        - containerPort: 9092

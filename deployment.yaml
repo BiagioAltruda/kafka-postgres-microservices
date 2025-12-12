@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: anagrafe
+
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: anagrafe
+  template:
+    metadata:
+      labels:
+        app: anagrafe
+    spec:
+      containers:
+      - name: security
+        image: biagioam/security:latest
+        ports:
+          - containerPort: 8080
+      - name: log-service
+        image: biagioam/log_service:latest
+        ports:
+          - containerPort: 8081

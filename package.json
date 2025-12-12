@@ -1,0 +1,23 @@
+{
+  "name": "anagrafe",
+  "version": "1.0.0",
+  "description": "",
+  "keywords": [
+    "microservices"
+  ],
+  "homepage": "https://github.com/BiagioAltruda/kafka-postgres-microservices#readme",
+  "bugs": {
+    "url": "https://github.com/BiagioAltruda/kafka-postgres-microservices/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BiagioAltruda/kafka-postgres-microservices.git"
+  },
+  "license": "ISC",
+  "author": "BAM",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}

@@ -1,0 +1,15 @@
+apiVersion: v1
+# create a PVC for the PostgreSQL database
+# to physically store the data from the database
+kind: PersistentVolumeClaim
+metadata:
+  name: psql-pvc
+
+spec:
+  accessModes:
+   # permitted action to the database
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+  storageClassName: standard

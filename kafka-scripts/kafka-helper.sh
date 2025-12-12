@@ -151,7 +151,7 @@ create-command() {
 
   # Execute the command
   echo "Executing: ${base_command[*]}"
-  "${base_command[@]}"
+  #"${base_command[@]}"
 }
 
 main "$@"
