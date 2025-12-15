@@ -2,6 +2,8 @@ package com.Anagrafe.entities;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -21,9 +23,11 @@ import lombok.Setter;
 public class BaseUser extends Persistable implements Loggable {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @JsonIgnore
   @Column(name = "user_id")
   private Long id;
   private String username;
+  @JsonIgnore
   private String password;
   private String clearance;
 

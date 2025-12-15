@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>test</title>
+</head>
+
+<body>
+
+  <p style="display: none; color:red;" id="error-message"></p>
+  <h1>register</h1>
+  <form id="register_form">
+    <label for="name"></label>
+    <input type="text" id="reg-name" name="name" placeholder="insert your name">
+    <label for="password"></label>
+    <input type="password" id="reg-password" name="password" placeholder="insert your password"> <br>
+    <input type="radio" id="admin" name="clearance" value="ADMIN" required="required">
+    <label for="clearance">admin</label>
+    <input type="radio" id="user" name="clearance" value="USER" required="required">
+    <label for="user">user</label> <br>
+    <input type="button" name="submit" onclick="register()" value="register">
+  </form> <br>
+  <h1>Login</h1>
+  <form id="login_form">
+    <label for="name"></label>
+    <input type="text" id="login-name" name="name" placeholder="insert your name">
+    <label for="password"></label>
+    <input type="password" id="login-password" name="password" placeholder="insert your password"> <br>
+    <input type="button" name="submit" onclick="login()" value="login">
+  </form>
+  <script>
+    async function register() {
+
+      const name = document.getElementById("reg-name").value;
+      const password = document.getElementById("reg-password").value;
+      const clearance = document.querySelector('input[name="clearance"]:checked')?.value;
+
+      console.log(name, password, clearance);
+      const request = JSON.stringify({
+        "username": name,
+        "password": password,
+        "clearance": clearance
+      });
+
+      fetch("/auth/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: request
+      })
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            window.location.href = "/home.html";
+          }
+          else {
+            document.getElementById("error-message").innerHTML = data.message;
+            document.getElementById("error-message").style.display = "block";
+          }
+        })
+        .catch(error => {
+          document.getElementById("error-message").innerHTML = (error && error.message) ? error.message : 'Network error';
+          document.getElementById("error-message").style.display = "block";
+        })
+    }
+
+    async function login() {
+      const username = document.getElementById("login-name").value;
+      const password = document.getElementById("login-password").value;
+
+      const request = JSON.stringify({
+        "username": username,
+        "password": password
+      });
+
+      fetch("/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: request
+      })
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            localStorage.setItem("Authorization", "Bearer " + data.jwtToken);
+            window.location.href = "/home.html";
+            console.log(data.jwtToken);
+          } else {
+            console.log(data.jwtToken);
+            console.log("wrong data");
+            document.getElementById("error-message").innerHTML = data.message;
+            document.getElementById("error-message").style.display = "block";
+          }
+        })
+        .catch(error => {
+          document.getElementById("error-message").innerHTML = (error && error.message) ? error.message : 'Network error';
+          document.getElementById("error-message").style.display = "block";
+        });
+    }
+    window.login = login;
+    window.register = register;
+  </script>
+
+</body>
+
+</html>

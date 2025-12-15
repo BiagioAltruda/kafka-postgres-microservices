@@ -17,8 +17,8 @@ public class DocumentationService {
     this.documentationRepository = documentationRepository;
   }
 
-  public void save(Document log) {
-    documentationRepository.save(log);
+  public void save(Document doc) {
+    documentationRepository.save(doc);
   }
 
   public Document findById(Long id) {

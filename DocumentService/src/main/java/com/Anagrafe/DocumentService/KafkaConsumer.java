@@ -16,7 +16,7 @@ public class KafkaConsumer {
     this.documentationService = documentationService;
   }
 
-  @KafkaListener(topics = "account-creation", groupId = "accounts")
+  @KafkaListener(topics = "documentation-upload", groupId = "accounts")
   public void listen(DocumentationRequest documents) {
 
     documentationService.saveBatch(documents);

@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.Anagrafe.AdminService.model.AuthenticationRequest;
 import com.Anagrafe.AdminService.model.AuthenticationResponse;
+import com.Anagrafe.AdminService.service.JwtService;
 import com.Anagrafe.AdminService.service.UserService;
 import com.Anagrafe.entities.BaseUser;
 import com.Anagrafe.entities.ChangeLog;
@@ -30,6 +31,7 @@ public class AuthenticationController {
 
   private final AuthenticationManager authenticationManager;
   private final UserService userService;
+  private final JwtService jwtService;
   private final KafkaTemplate<String, String> kafkaTemplate;
   private final KafkaTemplate<String, ChangeLog> kafkaLogTemplate;
 
@@ -37,11 +39,13 @@ public class AuthenticationController {
       UserService userService,
       AuthenticationManager authenticationManager,
       KafkaTemplate<String, String> kafkaTemplate,
-      KafkaTemplate<String, ChangeLog> kafkaLogTemplate) {
+      KafkaTemplate<String, ChangeLog> kafkaLogTemplate,
+      JwtService jwtService) {
     this.authenticationManager = authenticationManager;
     this.userService = userService;
     this.kafkaTemplate = kafkaTemplate;
     this.kafkaLogTemplate = kafkaLogTemplate;
+    this.jwtService = jwtService;
   }
 
   @PostMapping("/register")
@@ -78,7 +82,8 @@ public class AuthenticationController {
       }
       if (auth.isAuthenticated()) {
         String jwtToken = userService.loginUser(request.getUsername(), request.getPassword()).get();
-        return ResponseEntity.ok(new AuthenticationResponse(true, "User logged in successfully", null, jwtToken));
+        return ResponseEntity.ok().header("Authorization", "Bearer " + jwtToken)
+            .body(new AuthenticationResponse(true, "User logged in", null, jwtToken));
       } else {
         return ResponseEntity.badRequest().body(new AuthenticationResponse(false, "User not logged in", null, null));
       }
@@ -88,6 +93,14 @@ public class AuthenticationController {
     } catch (Exception e) {
       return ResponseEntity.badRequest().body(new AuthenticationResponse(false, "Unknown error", e.getMessage(), null));
     }
+  }
+
+  @PostMapping("/from-token")
+  public ResponseEntity<BaseUser> getUserFromToken(@RequestBody String token) {
+    String username = jwtService.getUsernameFromToken(token);
+    BaseUser user = userService.findUserByUsername(username).orElseThrow();
+    user.setPassword(null);
+    return ResponseEntity.ok(user);
   }
 
   private Authentication verifyAuthentication(UsernamePasswordAuthenticationToken authenticationToken) {

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Home</title>
+  <script>
+    async function loadAuthorization() {
+      const token = localStorage.getItem("Authorization");
+
+      if (!token) {
+        window.location.href = "/index.html";
+      }
+    }
+  </script>
+</head>
+
+<body>
+  <h1>Home Page</h1>
+
+  <h2>Your uploaded documentation</h2>
+  <div class="docs-container">
+
+  </div>
+
+  <h3>upload documentation</h3>
+  <form>
+    <input type="button" value="Upload" id="files">
+    <input type="submit" onclick="upload()">
+  </form>
+</body>
+
+<script>
+  async function upload() {
+
+    const files = document.getElementById("files").files;
+    const totalSize = 0;
+    for (const file of files) {
+      totalSize += file.size;
+    }
+    if (files.length === 0) {
+      alert("Please select a file to upload.");
+      return;
+    }
+    const documents = JSON.stringify({
+      "documents": files
+    });
+    const request = fetch("/from-token", {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: {
+        "token": localStorage.getItem("Authorization")
+      },
+    })
+    const userResponse = await request;
+
+    const data = JSON.stringify({
+      "documents": documents,
+      "operation": "upload",
+      "user": userResponse.user,
+      "size": totalSize
+    });
+
+    if (totalSize > 500) {
+
+      // send kafka event and defer upload
+
+    }
+    else {
+
+      // call document service to upload synchronously
+
+    }
+  }
+</script>
+
+</html>
