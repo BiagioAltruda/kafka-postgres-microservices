@@ -22,6 +22,11 @@ public class DocumentationController {
     this.documentationService = documentationService;
   }
 
+  /*
+   * FIX: refactor persistence logic into commons
+   * for compatibility between services
+   */
+
   @PostMapping("/upload")
   @Transactional
   public ResponseEntity<String> uploadDocument(@RequestBody DocumentationRequest request) {

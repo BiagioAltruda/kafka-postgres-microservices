@@ -62,10 +62,11 @@ public class DocumentationController {
 
     // max size of documents to be processes
     // synchronously
-    final Integer syncrhronousLimit = 500;
+    final Integer syncrhronousLimit = 1024 * 10;
     /**
      * TODO: check document size, if size is above some value,
      * defer the operation to another service with kafka
+     * 
      */
     if (request.getSize() > syncrhronousLimit) {
       kafkaDocumentationRequestTemplate.send(request.getOperation().toString(), request);
