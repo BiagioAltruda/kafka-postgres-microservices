@@ -31,7 +31,7 @@ public class BaseUser extends Persistable implements Loggable {
   private String password;
   private String clearance;
 
-  @OneToMany(fetch = FetchType.LAZY, mappedBy = "owner")
+  @OneToMany(fetch = FetchType.LAZY, mappedBy = "userId")
   private List<Document> documents;
 
   @Transient

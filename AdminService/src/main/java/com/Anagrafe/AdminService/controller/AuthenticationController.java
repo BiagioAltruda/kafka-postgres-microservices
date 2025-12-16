@@ -96,11 +96,14 @@ public class AuthenticationController {
   }
 
   @PostMapping("/from-token")
-  public ResponseEntity<BaseUser> getUserFromToken(@RequestBody String token) {
+  public ResponseEntity<Optional<Long>> getUserFromToken(@RequestBody String token) {
     String username = jwtService.getUsernameFromToken(token);
-    BaseUser user = userService.findUserByUsername(username).orElseThrow();
-    user.setPassword(null);
-    return ResponseEntity.ok(user);
+    try {
+      BaseUser user = userService.findUserByUsername(username).orElseThrow();
+      return ResponseEntity.ok(Optional.of(user.getId()));
+    } catch (Exception e) {
+      return ResponseEntity.badRequest().body(Optional.empty());
+    }
   }
 
   private Authentication verifyAuthentication(UsernamePasswordAuthenticationToken authenticationToken) {

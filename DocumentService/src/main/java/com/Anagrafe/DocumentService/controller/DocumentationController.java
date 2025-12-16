@@ -32,9 +32,9 @@ public class DocumentationController {
   public ResponseEntity<String> uploadDocument(@RequestBody DocumentationRequest request) {
     for (Document doc : request.getDocuments()) {
       Document newDoc = new Document();
-      newDoc.setOwner(request.getUser());
+      newDoc.setUserId(request.getUserId());
       System.out.println("**********************************************************************");
-      System.out.println("User:" + request.getUser().getChangeLog());
+      System.out.println("User:" + request.getUserId());
       System.out.println("**********************************************************************");
       newDoc.setDocumentType(doc.getDocumentType());
       newDoc.setCreationDate(doc.getCreationDate());
@@ -43,6 +43,11 @@ public class DocumentationController {
       documentationService.save(newDoc);
     }
     return ResponseEntity.ok("File uploaded successfully");
+  }
+
+  @PostMapping("/test")
+  public String test() {
+    return "test";
   }
 
 }

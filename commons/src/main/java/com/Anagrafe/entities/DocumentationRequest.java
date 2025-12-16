@@ -18,7 +18,7 @@ public class DocumentationRequest {
 
   private List<Document> documents;
   private DocumentOperation operation;
-  private BaseUser user;
+  private Long userId;
   private Integer size;
 
   /**
@@ -33,9 +33,9 @@ public class DocumentationRequest {
   public DocumentationRequest(List<Document> documents, DocumentOperation operation) throws IllegalArgumentException {
     this.documents = documents;
     this.operation = operation;
-    this.user = documents.get(0).getOwner();
+    this.userId = documents.get(0).getUserId();
     for (Document document : documents) {
-      if (this.user != document.getOwner()) {
+      if (this.userId != document.getUserId()) {
         throw new IllegalArgumentException("All documents must belong to the same user");
       }
     }

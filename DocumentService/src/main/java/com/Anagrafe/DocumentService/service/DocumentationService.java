@@ -31,7 +31,7 @@ public class DocumentationService {
     }
   }
 
-  public Optional<DocumentationRequest> findByOwner(String owner) {
-    return documentationRepository.findByOwner(owner);
+  public Optional<DocumentationRequest> findByUserId(Long userId) {
+    return documentationRepository.findByUserId(userId);
   }
 }

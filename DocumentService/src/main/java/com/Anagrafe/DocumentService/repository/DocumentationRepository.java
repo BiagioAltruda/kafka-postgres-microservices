@@ -13,5 +13,5 @@ public interface DocumentationRepository extends JpaRepository<Document, Long> {
 
   Optional<Document> findById(Long id);
 
-  Optional<DocumentationRequest> findByOwner(String owner);
+  Optional<DocumentationRequest> findByUserId(Long userId);
 }

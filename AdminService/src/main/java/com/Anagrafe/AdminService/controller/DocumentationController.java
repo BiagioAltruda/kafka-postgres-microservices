@@ -1,22 +1,20 @@
 package com.Anagrafe.AdminService.controller;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.Anagrafe.AdminService.service.JwtService;
 import com.Anagrafe.AdminService.service.UserService;
-import com.Anagrafe.entities.BaseUser;
 import com.Anagrafe.entities.Document;
 import com.Anagrafe.entities.DocumentationRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -24,50 +22,54 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.Response;
 
 @RestController
 @RequestMapping("/documentation")
 public class DocumentationController {
 
   private final KafkaTemplate<String, DocumentationRequest> kafkaDocumentationRequestTemplate;
+  private final JwtService jwtService;
   private final UserService userService;
+  private final OkHttpClient client;
 
   public DocumentationController(KafkaTemplate<String, DocumentationRequest> kafkaDocumentationRequestTemplate,
-      UserService userService) {
+      JwtService jwtService, UserService userService) {
     this.kafkaDocumentationRequestTemplate = kafkaDocumentationRequestTemplate;
+    this.jwtService = jwtService;
     this.userService = userService;
+    this.client = new OkHttpClient();
   }
 
   @GetMapping("/get-docs")
-  public ResponseEntity<List<Document>> getUserDocuments() {
-
+  public List<Document> getUserDocuments(@RequestHeader String token) {
+    String url = "http://localhost:8082/documentation/get-docs";
     try {
-      Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-      @SuppressWarnings("unused")
-      BaseUser user = (BaseUser) auth.getPrincipal();
+      userService.findUserByUsername(jwtService.getUsernameFromToken(token)).orElseThrow();
+      Request newRequest = new Request.Builder()
+          .url(url)
+          .addHeader("token", token)
+          .build();
+      try (Response response = client.newCall(newRequest).execute()) {
+        @SuppressWarnings("unchecked")
+        List<Document> docs = (List<Document>) response.body();
 
-      /**
-       * TODO: get document with kafka
-       */
-
+        return docs;
+      } catch (Exception e) {
+        return null;
+      }
     } catch (Exception e) {
       throw new AccessDeniedException("User not logged in");
     }
-
-    return null;
   }
 
   @PostMapping("/upload")
-  public ResponseEntity<String> uploadDocument(@RequestBody DocumentationRequest request) {
+  public ResponseEntity<String> uploadDocument(@RequestBody DocumentationRequest request, @RequestBody String token) {
 
     // max size of documents to be processes
     // synchronously
     final Integer syncrhronousLimit = 1024 * 10;
-    /**
-     * TODO: check document size, if size is above some value,
-     * defer the operation to another service with kafka
-     * 
-     */
+
     if (request.getSize() > syncrhronousLimit) {
       kafkaDocumentationRequestTemplate.send(request.getOperation().toString(), request);
       return ResponseEntity.ok("Document upload deferred to service. await results");
@@ -80,26 +82,12 @@ public class DocumentationController {
     }
   }
 
-  @SuppressWarnings("unused")
-  private Document createDocument(BaseUser owner, String documentType, LocalDateTime creationDate,
-      LocalDateTime expirationDate) {
-
-    return null;
-  }
-
   private String forwardDocumentRequest(DocumentationRequest request) throws IOException {
 
     String url = "http://localhost:8082/documentation/upload";
 
     ObjectMapper mapper = new ObjectMapper();
     mapper.registerModule(new JavaTimeModule());
-
-    BaseUser user = userService.findUserByUsername(request.getDocuments().get(0).getOwner().getUsername()).get();
-    request.setUser(user);
-
-    System.out.println("**********************************************************************");
-    System.out.println("User:" + request.getUser().getChangeLog());
-    System.out.println("**********************************************************************");
 
     String json = mapper.writeValueAsString(request);
     System.out.println("sending: " + json);
@@ -108,8 +96,6 @@ public class DocumentationController {
         .url(url)
         .post(okhttp3.RequestBody.create(json, okhttp3.MediaType.parse("application/json")))
         .build();
-
-    OkHttpClient client = new OkHttpClient();
 
     try (okhttp3.Response response = client.newCall(newRequest).execute()) {
 

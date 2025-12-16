@@ -19,6 +19,17 @@
 
   <h2>Your uploaded documentation</h2>
   <div class="docs-container">
+    <button id="load-docs" onclick="appendDocumentRow()">Load Documents</button>
+    <table id="docs-table">
+      <thead>
+        <tr>
+          <th>Document Type</th>
+          <th>Size (bytes)</th>
+          <th>Creation Date</th>
+          <th>Expiration Date</th>
+        </tr>
+      </thead>
+      <tbody id="docs-body"></tbody>
 
   </div>
 
@@ -47,30 +58,61 @@
     const request = fetch("/from-token", {
       headers: {
         "Content-Type": "application/json",
-      },
-      body: {
         "token": localStorage.getItem("Authorization")
-      },
-    })
-    const userResponse = await request;
+      }
+    });
+    const userId = await request;
 
     const data = JSON.stringify({
       "documents": documents,
       "operation": "upload",
-      "user": userResponse.user,
+      "user": userId,
       "size": totalSize
     });
 
-    if (totalSize > 500) {
+    const uploadReponse = await fetch("/documentation/upload", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: {
+        "token": localStorage.getItem("Authorization"),
+        data
+      }
+    })
+  }
 
-      // send kafka event and defer upload
+  async function appendDocumentRow() {
 
-    }
-    else {
+    const table = document.getElementById("docs-table");
 
-      // call document service to upload synchronously
-
-    }
+    const response = fetch("http://localhost:8080/documentation/get-docs", {
+      headers: {
+        "token": localStorage.getItem("Authorization")
+      }
+    })
+      .then(response => response.json())
+      .then(documents => {
+        if (documents.length === 0) {
+          alert("No documents found");
+          return;
+        }
+        for (const document of documents) {
+          const row = document.createElement("tr");
+          row.innerHTML = `
+    <tr>
+      <td>${document.documentType}</td>
+      <td>${document.size}</td>
+      <td>${document.creationDate}</td>
+      <td>${document.expirationDate}</td>
+    </tr>
+    `;
+          table.appendChild(row);
+        }
+      })
+      .catch(error => {
+        alert("Failed to load documents: " + (error && error.message ? error.message : 'Network error'));
+      });
   }
 </script>
 
