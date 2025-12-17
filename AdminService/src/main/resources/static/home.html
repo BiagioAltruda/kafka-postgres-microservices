@@ -35,51 +35,71 @@
 
   <h3>upload documentation</h3>
   <form>
-    <input type="button" value="Upload" id="files">
-    <input type="submit" onclick="upload()">
+    <label for="file">Select file:</label>
+    <input type="file" placeholder="Upload" id="file" oninput="storeFile()"><br>
+    <label for="document-type">Document Type:</label>
+    <input type="text" placeholder="document type" id="document-type"><br>
+    <label for="creation-date">Creation Date:</label>
+    <input type="datetime" placeholder="creation-date" id="creation-date"><br>
+    <label for="expiration-date">Expiration Date:</label>
+    <input type="datetime" placeholder="expiration-date" id="expiration-date"><br>
+    <input type="button" value="upload" onclick="upload()">
   </form>
+
+  <button onclick="test()">Test</button>
+  <p id="test"></p>
 </body>
 
 <script>
+  const documents = [];
+  async function test() {
+    const response = fetch("/auth/from-token", {
+      headers: {
+        "token": localStorage.getItem("Authorization"),
+        "Authorization": localStorage.getItem("Authorization")
+      }
+    });
+    document.getElementById("test").innerText = await response.toString();
+  }
+
+  function storeFile() {
+    const fileInput = document.getElementById("file");
+    const fileTypeInput = document.getElementById("document-type");
+    fileInput.documentType = fileTypeInput.value;
+    documents.push(fileInput.files[0]);
+
+    console.log(documents);
+  }
   async function upload() {
 
-    const files = document.getElementById("files").files;
-    const totalSize = 0;
-    for (const file of files) {
-      totalSize += file.size;
+    let totalSize = 0;
+    for (const doc of documents) {
+      totalSize += doc.size;
     }
-    if (files.length === 0) {
+
+    if (documents.length === 0) {
       alert("Please select a file to upload.");
       return;
     }
-    const documents = JSON.stringify({
-      "documents": files
-    });
-    const request = fetch("/from-token", {
-      headers: {
-        "Content-Type": "application/json",
-        "token": localStorage.getItem("Authorization")
-      }
-    });
-    const userId = await request;
-
     const data = JSON.stringify({
       "documents": documents,
-      "operation": "upload",
-      "user": userId,
-      "size": totalSize
+      "operation": "DOCUMENT_CREATION",
+      "userId": null,
+      "size": totalSize,
+      "creationDate": document.getElementById("creation-date").value,
+      "expirationDate": document.getElementById("expiration-date").value
     });
 
-    const uploadReponse = await fetch("/documentation/upload", {
+    const uploadReponse = fetch("/documentation/upload", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-      },
-      body: {
         "token": localStorage.getItem("Authorization"),
-        data
-      }
-    })
+      },
+      body: data
+    });
+    console.log(await uploadReponse);
+
   }
 
   async function appendDocumentRow() {

@@ -1,15 +1,13 @@
 package com.Anagrafe.AdminService.service;
 
-import java.security.NoSuchAlgorithmException;
-import java.util.Base64;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
-import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -23,18 +21,19 @@ import io.jsonwebtoken.security.Keys;
 @Service
 public class JwtService {
 
+  @Value("${jwt.secret}")
   private String secretKey;
 
-  public JwtService() throws NoSuchAlgorithmException {
-    try {
-      KeyGenerator keyGenerator = KeyGenerator.getInstance("HmacSHA256");
-      SecretKey tmp = keyGenerator.generateKey();
-      this.secretKey = Base64.getEncoder().encodeToString(tmp.getEncoded());
-    } catch (NoSuchAlgorithmException e) {
-      throw new NoSuchAlgorithmException("HmacSHA256 not found");
-    }
-  }
-
+  // public JwtService() throws NoSuchAlgorithmException {
+  // try {
+  // KeyGenerator keyGenerator = KeyGenerator.getInstance("HmacSHA256");
+  // SecretKey tmp = keyGenerator.generateKey();
+  // this.secretKey = Base64.getEncoder().encodeToString(tmp.getEncoded());
+  // } catch (NoSuchAlgorithmException e) {
+  // throw new NoSuchAlgorithmException("HmacSHA256 not found");
+  // }
+  // }
+  //
   // method to generate token based on the username, and creation date, encoded in
   // Base64
   public String generateToken(BaseUser user) {
@@ -45,7 +44,7 @@ public class JwtService {
         .add(claims)
         .subject(user.getUsername())
         .issuedAt(new Date(System.currentTimeMillis()))
-        .expiration(new Date(System.currentTimeMillis() + 60 * 60))
+        .expiration(new Date(System.currentTimeMillis() + 60 * 60 * 1000)) // token valid for 1 hour
         .and()
         .signWith(getKey())
         .compact();
@@ -75,7 +74,7 @@ public class JwtService {
         .getPayload();
   }
 
-  // finally validating and chackign expiration date
+  // finally validating and checking expiration date
   public boolean validateToken(String token, UserDetails userDetails) {
     final String username = getUsernameFromToken(token);
     return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));

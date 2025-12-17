@@ -64,8 +64,13 @@ public class DocumentationController {
   }
 
   @PostMapping("/upload")
-  public ResponseEntity<String> uploadDocument(@RequestBody DocumentationRequest request, @RequestBody String token) {
+  public ResponseEntity<String> uploadDocument(@RequestBody DocumentationRequest request, @RequestHeader String token) {
 
+    Long userId = userService
+        .findUserByUsername(jwtService.getUsernameFromToken(token.replace("Bearer ", "")))
+        .orElseThrow(() -> new AccessDeniedException("User not logged in"))
+        .getId();
+    request.setUserId(userId);
     // max size of documents to be processes
     // synchronously
     final Integer syncrhronousLimit = 1024 * 10;

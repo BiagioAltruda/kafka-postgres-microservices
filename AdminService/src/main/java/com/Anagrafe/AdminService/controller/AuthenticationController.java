@@ -11,8 +11,10 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -95,9 +97,10 @@ public class AuthenticationController {
     }
   }
 
-  @PostMapping("/from-token")
-  public ResponseEntity<Optional<Long>> getUserFromToken(@RequestBody String token) {
-    String username = jwtService.getUsernameFromToken(token);
+  @Deprecated
+  @GetMapping("/from-token")
+  public ResponseEntity<Optional<Long>> getUserFromToken(@RequestHeader String token) {
+    String username = jwtService.getUsernameFromToken(token.replace("Bearer ", ""));
     try {
       BaseUser user = userService.findUserByUsername(username).orElseThrow();
       return ResponseEntity.ok(Optional.of(user.getId()));

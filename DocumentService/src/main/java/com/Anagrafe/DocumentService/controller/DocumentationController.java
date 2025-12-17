@@ -22,11 +22,6 @@ public class DocumentationController {
     this.documentationService = documentationService;
   }
 
-  /*
-   * FIX: refactor persistence logic into commons
-   * for compatibility between services
-   */
-
   @PostMapping("/upload")
   @Transactional
   public ResponseEntity<String> uploadDocument(@RequestBody DocumentationRequest request) {
@@ -35,6 +30,9 @@ public class DocumentationController {
       newDoc.setUserId(request.getUserId());
       System.out.println("**********************************************************************");
       System.out.println("User:" + request.getUserId());
+      System.out.println("Date:" + doc.getCreationDate());
+      System.out.println("Type:" + doc.getDocumentType());
+      System.out.println("Expiration:" + doc.getExpirationDate());
       System.out.println("**********************************************************************");
       newDoc.setDocumentType(doc.getDocumentType());
       newDoc.setCreationDate(doc.getCreationDate());
@@ -43,11 +41,6 @@ public class DocumentationController {
       documentationService.save(newDoc);
     }
     return ResponseEntity.ok("File uploaded successfully");
-  }
-
-  @PostMapping("/test")
-  public String test() {
-    return "test";
   }
 
 }
