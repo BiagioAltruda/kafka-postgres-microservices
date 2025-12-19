@@ -23,7 +23,8 @@ public class KafkaConsumerConfig {
     Map<String, Object> configProps = new HashMap<>();
     configProps.put("bootstrap.servers", "localhost:9092");
     configProps.put(ConsumerConfig.GROUP_ID_CONFIG, "log-service");
-    // Use ErrorHandlingDeserializer so DefaultErrorHandler can handle SerializationException
+    // Use ErrorHandlingDeserializer so DefaultErrorHandler can handle
+    // SerializationException
     configProps.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, ErrorHandlingDeserializer.class);
     configProps.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, ErrorHandlingDeserializer.class);
     // delegate deserializers
@@ -33,9 +34,31 @@ public class KafkaConsumerConfig {
   }
 
   @Bean
+  ConsumerFactory<String, String> logConsumerFactory() {
+    Map<String, Object> configProps = new HashMap<>();
+    configProps.put("bootstrap.servers", "localhost:9092");
+    configProps.put(ConsumerConfig.GROUP_ID_CONFIG, "log-service");
+    // Use ErrorHandlingDeserializer so DefaultErrorHandler can handle
+    // SerializationException
+    configProps.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, ErrorHandlingDeserializer.class);
+    configProps.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, ErrorHandlingDeserializer.class);
+    // delegate deserializers
+    configProps.put(ErrorHandlingDeserializer.KEY_DESERIALIZER_CLASS, StringDeserializer.class);
+    configProps.put(ErrorHandlingDeserializer.VALUE_DESERIALIZER_CLASS, StringDeserializer.class);
+    return new DefaultKafkaConsumerFactory<>(configProps);
+  }
+
+  @Bean
   ConcurrentKafkaListenerContainerFactory<String, ChangeLog> kafkaListenerContainerFactory() {
     ConcurrentKafkaListenerContainerFactory<String, ChangeLog> factory = new ConcurrentKafkaListenerContainerFactory<>();
     factory.setConsumerFactory(consumerFactory());
+    return factory;
+  }
+
+  @Bean
+  ConcurrentKafkaListenerContainerFactory<String, String> kafkaLogListenerContainerFactory() {
+    ConcurrentKafkaListenerContainerFactory<String, String> factory = new ConcurrentKafkaListenerContainerFactory<>();
+    factory.setConsumerFactory(logConsumerFactory());
     return factory;
   }
 }

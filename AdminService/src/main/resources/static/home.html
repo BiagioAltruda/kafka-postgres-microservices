@@ -40,9 +40,9 @@
     <label for="document-type">Document Type:</label>
     <input type="text" placeholder="document type" id="document-type"><br>
     <label for="creation-date">Creation Date:</label>
-    <input type="datetime" placeholder="creation-date" id="creation-date"><br>
+    <input type="date" placeholder="creation-date" id="creation-date"><br>
     <label for="expiration-date">Expiration Date:</label>
-    <input type="datetime" placeholder="expiration-date" id="expiration-date"><br>
+    <input type="date" placeholder="expiration-date" id="expiration-date"><br>
     <input type="button" value="upload" onclick="upload()">
   </form>
 
@@ -66,7 +66,22 @@
     const fileInput = document.getElementById("file");
     const fileTypeInput = document.getElementById("document-type");
     fileInput.documentType = fileTypeInput.value;
-    documents.push(fileInput.files[0]);
+    //documents.push(fileInput.files[0]);
+    documents.push(JSON.stringify({
+      "id": null,
+      "userId": null,
+      "documentType": fileInput.documentType,
+      "creationDate": document.getElementById("creation-date").value,
+      "expirationDate": document.getElementById("expiration-date").value,
+      "contents":
+        new Blob(
+          [fileInput.files[0]],
+          {type: "text/plain"}
+        )
+    }
+    )
+    );
+    fileInput.pop();
 
     console.log(documents);
   }
@@ -86,8 +101,6 @@
       "operation": "DOCUMENT_CREATION",
       "userId": null,
       "size": totalSize,
-      "creationDate": document.getElementById("creation-date").value,
-      "expirationDate": document.getElementById("expiration-date").value
     });
 
     const uploadReponse = fetch("/documentation/upload", {

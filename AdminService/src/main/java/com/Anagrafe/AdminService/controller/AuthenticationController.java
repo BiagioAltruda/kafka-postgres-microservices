@@ -3,6 +3,8 @@ package com.Anagrafe.AdminService.controller;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.http.ResponseEntity;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -36,6 +38,8 @@ public class AuthenticationController {
   private final JwtService jwtService;
   private final KafkaTemplate<String, String> kafkaTemplate;
   private final KafkaTemplate<String, ChangeLog> kafkaLogTemplate;
+  private final Logger logger = LogManager.getLogger("Authentication_Logger");
+  private final Logger userLogger = LogManager.getLogger("com.Anagrafe.users");
 
   public AuthenticationController(
       UserService userService,
@@ -48,6 +52,11 @@ public class AuthenticationController {
     this.kafkaTemplate = kafkaTemplate;
     this.kafkaLogTemplate = kafkaLogTemplate;
     this.jwtService = jwtService;
+    logger.info("Authentication controller created");
+    logger.warn("Authentication controller created");
+    logger.debug("Authentication controller created");
+    logger.error("Authentication controller created");
+
   }
 
   @PostMapping("/register")
@@ -64,10 +73,12 @@ public class AuthenticationController {
       ChangeLog log = createChangeLog("account-creation", "User created", user.get());
       // publish message to kafka topic
       kafkaLogTemplate.send("account-creation", log);
+      userLogger.info("User created:  username={}, jwt_token={}", request.getUsername(), jwtToken);
 
       return ResponseEntity
           .ok(new AuthenticationResponse(true, "User created successfully", null, jwtToken));
     }
+    userLogger.error("User already exists:  tried_username={}", request.getUsername());
     return ResponseEntity.badRequest().body(new AuthenticationResponse(false, "User already exists", null, null));
   }
 
@@ -80,19 +91,29 @@ public class AuthenticationController {
       Authentication auth = verifyAuthentication(authenticationToken);
 
       if (auth == null) {
+        userLogger.error("Authentication failed:  tried_username={}, tried_password={}", request.getUsername(),
+            request.getPassword());
         throw new NullPointerException("Authentication failed");
       }
       if (auth.isAuthenticated()) {
         String jwtToken = userService.loginUser(request.getUsername(), request.getPassword()).get();
+        userLogger.info("User logged in:  username={}, jwt_token={}", request.getUsername(), jwtToken);
         return ResponseEntity.ok().header("Authorization", "Bearer " + jwtToken)
             .body(new AuthenticationResponse(true, "User logged in", null, jwtToken));
       } else {
+
+        userLogger.error("User not logged in:  tried_username={}, tried_password={}", request.getUsername(),
+            request.getPassword());
         return ResponseEntity.badRequest().body(new AuthenticationResponse(false, "User not logged in", null, null));
       }
     } catch (BadCredentialsException e) {
+      userLogger.error("User not logged in:  tried_username={}, tried_password={}", request.getUsername(),
+          request.getPassword(), e);
       return ResponseEntity.badRequest()
           .body(new AuthenticationResponse(false, "Invalid username or password", e.getMessage(), null));
     } catch (Exception e) {
+      userLogger.error("User not logged in:  tried_username={}, tried_password={}", request.getUsername(),
+          request.getPassword(), e);
       return ResponseEntity.badRequest().body(new AuthenticationResponse(false, "Unknown error", e.getMessage(), null));
     }
   }
@@ -118,13 +139,13 @@ public class AuthenticationController {
 
   private ChangeLog createChangeLog(String topic, String message, BaseUser user) {
 
-    System.out.println(user.toString());
+    logger.info(user);
 
     ChangeLog log = new ChangeLog(
         EventType.fromString(topic), Optional.of(user),
         message, LocalDateTime.now());
-    System.out.println("FROM CONTROLLER");
-    System.out.println(log.toString());
+    logger.info("FROM CONTROLLER");
+    logger.info(log.toString());
 
     return log;
   }

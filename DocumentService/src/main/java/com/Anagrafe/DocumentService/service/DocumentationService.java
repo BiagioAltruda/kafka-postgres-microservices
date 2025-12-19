@@ -1,5 +1,6 @@
 package com.Anagrafe.DocumentService.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
@@ -31,7 +32,7 @@ public class DocumentationService {
     }
   }
 
-  public Optional<DocumentationRequest> findByUserId(Long userId) {
+  public Optional<List<Document>> findByUserId(Long userId) {
     return documentationRepository.findByUserId(userId);
   }
 }

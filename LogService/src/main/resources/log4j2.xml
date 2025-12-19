@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns="https://logging.apache.org/xml/ns"
+  xsi:schemaLocation="
+   https://logging.apache.org/xml/ns
+   https://logging.apache.org/xml/ns/log4j-config-2.xsd">
+  <Appenders>
+    <Console name="CONSOLE">
+      <JsonTemplateLayout/>
+    </Console>
+    <File name="MAIN" fileName="logs/main.log">
+     <JsonTemplateLayout/>
+     </File>
+    <RollingFile name="FILE" fileName="logs/file.log" filePattern="logs/file-%d{yyyy-MM-dd}.log">
+      <PatternLayout pattern="%d{yyyy-MM-dd--HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"/>
+    </RollingFile>
+    <Kafka name="KAFKA" topic="user-creation" key="$${web:contextName}">
+      <JsonTemplateLayout/>
+      </Kafka>
+  </Appenders>
+  
+  <Loggers>
+    <Logger name="com.anagrafe" level="INFO"/>
+    <Root level="INFO">
+      <AppenderRef ref="KAFKA"/>
+    </Root>
+    <Logger name="org.apache.kafka" level="WARN" additivity="false">
+     <AppenderRef ref="FILE"/>
+     </Logger>
+    <Logger name="com.anagrafe.logservice" level="DEBUG" additivity="false">
+      <AppenderRef ref="MAIN"/>
+      </Logger>
+  </Loggers>
+
+</Configuration>

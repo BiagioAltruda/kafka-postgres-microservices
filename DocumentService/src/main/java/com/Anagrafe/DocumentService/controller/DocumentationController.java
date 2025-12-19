@@ -1,9 +1,14 @@
 package com.Anagrafe.DocumentService.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.Anagrafe.DocumentService.service.DocumentationService;
@@ -20,6 +25,16 @@ public class DocumentationController {
 
   public DocumentationController(DocumentationService documentationService) {
     this.documentationService = documentationService;
+  }
+
+  @GetMapping
+  public ResponseEntity<List<Document>> getDocuments(@RequestParam Long userId) {
+    List<Document> docs = documentationService.findByUserId(userId).get();
+
+    if (docs.isEmpty()) {
+      return ResponseEntity.status(404).body(null);
+    }
+    return ResponseEntity.ok(docs);
   }
 
   @PostMapping("/upload")
