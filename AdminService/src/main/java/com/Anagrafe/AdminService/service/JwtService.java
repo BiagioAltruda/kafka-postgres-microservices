@@ -7,6 +7,7 @@ import java.util.function.Function;
 
 import javax.crypto.SecretKey;
 
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
@@ -23,19 +24,8 @@ public class JwtService {
 
   @Value("${jwt.secret}")
   private String secretKey;
+  private final Logger logger = org.apache.logging.log4j.LogManager.getLogger("com.Anagrafe.users");
 
-  // public JwtService() throws NoSuchAlgorithmException {
-  // try {
-  // KeyGenerator keyGenerator = KeyGenerator.getInstance("HmacSHA256");
-  // SecretKey tmp = keyGenerator.generateKey();
-  // this.secretKey = Base64.getEncoder().encodeToString(tmp.getEncoded());
-  // } catch (NoSuchAlgorithmException e) {
-  // throw new NoSuchAlgorithmException("HmacSHA256 not found");
-  // }
-  // }
-  //
-  // method to generate token based on the username, and creation date, encoded in
-  // Base64
   public String generateToken(BaseUser user) {
     Map<String, Object> claims = new HashMap<>();
 
@@ -57,6 +47,8 @@ public class JwtService {
 
   // methods to very and validate JWT token
   public String getUsernameFromToken(String token) {
+
+    logger.info("looking for user with token {}", token);
     return extractClaim(token, Claims::getSubject);
   }
 

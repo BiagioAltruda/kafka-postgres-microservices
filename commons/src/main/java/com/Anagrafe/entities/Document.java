@@ -33,7 +33,8 @@ public class Document extends Persistable {
   private LocalDateTime creationDate;
   @Column(name = "expiration_date")
   private LocalDateTime expirationDate;
-  @Lob
+  // @Lob
+  @Column(name = "data", columnDefinition = "bytea")
   private byte[] data;
 
   public Document(Long userId, String documentType, LocalDateTime creationDate, LocalDateTime expirationDate) {

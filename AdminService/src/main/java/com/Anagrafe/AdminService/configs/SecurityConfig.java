@@ -46,9 +46,7 @@ public class SecurityConfig {
             .requestMatchers("/index.html").permitAll()
             .requestMatchers("/auth/register", "/auth/login").permitAll()
             .requestMatchers("/home.html").permitAll()
-            .requestMatchers("/get-documents").authenticated()
-            .requestMatchers("/documentation/**").permitAll()
-            .requestMatchers("/create-record", "/update-record", "/delete-record").hasRole("ADMIN")
+            .requestMatchers("/documentation/get-docs", "/documentation/upload").authenticated()
             .anyRequest().authenticated()) // otherwise they need authentication
         .authenticationManager(authenticationManager)
         .formLogin(form -> form.disable())

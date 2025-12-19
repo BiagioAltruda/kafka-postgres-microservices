@@ -1,8 +1,9 @@
 package com.Anagrafe.DocumentService.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,6 +23,7 @@ import jakarta.transaction.Transactional;
 public class DocumentationController {
 
   private final DocumentationService documentationService;
+  private final Logger logger = LogManager.getLogger("com.Anagrafe.docs");
 
   public DocumentationController(DocumentationService documentationService) {
     this.documentationService = documentationService;
@@ -29,11 +31,14 @@ public class DocumentationController {
 
   @GetMapping
   public ResponseEntity<List<Document>> getDocuments(@RequestParam Long userId) {
+    logger.info("Fetching documents for userId: " + userId);
     List<Document> docs = documentationService.findByUserId(userId).get();
 
     if (docs.isEmpty()) {
+      logger.warn("No documents found for userId: " + userId);
       return ResponseEntity.status(404).body(null);
     }
+    logger.info("Found " + docs.size() + " documents for userId: " + userId);
     return ResponseEntity.ok(docs);
   }
 
@@ -43,12 +48,13 @@ public class DocumentationController {
     for (Document doc : request.getDocuments()) {
       Document newDoc = new Document();
       newDoc.setUserId(request.getUserId());
-      System.out.println("**********************************************************************");
-      System.out.println("User:" + request.getUserId());
-      System.out.println("Date:" + doc.getCreationDate());
-      System.out.println("Type:" + doc.getDocumentType());
-      System.out.println("Expiration:" + doc.getExpirationDate());
-      System.out.println("**********************************************************************");
+
+      logger.info("User:" + request.getUserId());
+      logger.info("Date:" + doc.getCreationDate());
+      logger.info("Expiration:" + doc.getExpirationDate());
+      logger.info("Type:" + doc.getDocumentType());
+
+      newDoc.setData(doc.getData());
       newDoc.setDocumentType(doc.getDocumentType());
       newDoc.setCreationDate(doc.getCreationDate());
       newDoc.setExpirationDate(doc.getExpirationDate());

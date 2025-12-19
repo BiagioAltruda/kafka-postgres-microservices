@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.Anagrafe.AdminService.service.JwtService;
 import com.Anagrafe.AdminService.service.UserService;
+import com.Anagrafe.entities.BaseUser;
 import com.Anagrafe.entities.Document;
 import com.Anagrafe.entities.DocumentationRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -46,19 +47,23 @@ public class DocumentationController {
   }
 
   @GetMapping("/get-docs")
-  public ResponseEntity<List<Document>> getUserDocuments(@RequestHeader String token) {
+  public ResponseEntity<List<Document>> getUserDocuments(@RequestHeader String Authorization) {
+
     String url = "http://localhost:8082/documentation";
-    if (userService.findUserByUsername(jwtService.getUsernameFromToken(token)).get() == null) {
+    BaseUser user = userService
+        .findUserByUsername(jwtService.getUsernameFromToken(Authorization.replace("Bearer ", ""))).orElse(null);
+    if (user == null) {
       docLogger.error("User Not Logged in");
       throw new AccessDeniedException("User not logged in");
     }
-    Long userId = userService
-        .findUserByUsername(jwtService.getUsernameFromToken(token))
-        .orElseThrow(() -> new AccessDeniedException("User not logged in"))
-        .getId();
 
+    docLogger.info("User logged in, fetching user id");
+
+    url += "?userId=" + user.getId();
+    System.out.println(url);
+    docLogger.info("Fetching documents for user id {}", user.getId());
     Request newRequest = new Request.Builder()
-        .url(url + "?userId=" + userId)
+        .url(url)
         .build();
     try (Response response = client.newCall(newRequest).execute()) {
 
@@ -78,16 +83,30 @@ public class DocumentationController {
   }
 
   @PostMapping("/upload")
-  public ResponseEntity<String> uploadDocument(@RequestBody DocumentationRequest request, @RequestHeader String token) {
+  public ResponseEntity<String> uploadDocument(@RequestBody DocumentationRequest request,
+      @RequestHeader String Authorization) {
+    System.out.println("uploadDocument called");
+    docLogger.info("Received document upload request");
+    BaseUser user = userService
+        .findUserByUsername(jwtService.getUsernameFromToken(Authorization.replace("Bearer ", "")))
+        .orElse(null);
+    if (user == null) {
+      docLogger.error("User not found");
+      throw new AccessDeniedException("User not logged in");
+    }
+    Long userId = user.getId();
 
-    Long userId = userService
-        .findUserByUsername(jwtService.getUsernameFromToken(token.replace("Bearer ", "")))
-        .orElseThrow(() -> new AccessDeniedException("User not logged in"))
-        .getId();
     request.setUserId(userId);
+
+    docLogger.info("Assigned user id to documents");
+    // assign correct user id to each document
+    for (Document doc : request.getDocuments()) {
+      doc.setUserId(userId);
+    }
+
     // max size of documents to be processes
     // synchronously
-    final Integer syncrhronousLimit = 1024 * 10;
+    final Integer syncrhronousLimit = 1024 * 20;
 
     if (request.getSize() > syncrhronousLimit) {
       kafkaDocumentationRequestTemplate.send(request.getOperation().toString(), request);
@@ -112,7 +131,7 @@ public class DocumentationController {
     mapper.registerModule(new JavaTimeModule());
 
     String json = mapper.writeValueAsString(request);
-    System.out.println("sending: " + json);
+    docLogger.info("sending: " + json);
 
     Request newRequest = new Request.Builder()
         .url(url)
@@ -147,6 +166,5 @@ public class DocumentationController {
     mapper.registerModule(new JavaTimeModule());
     return mapper.readValue(bodyString,
         mapper.getTypeFactory().constructCollectionType(List.class, type));
-
   }
 }

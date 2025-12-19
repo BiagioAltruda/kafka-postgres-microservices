@@ -20,7 +20,7 @@
   <h2>Your uploaded documentation</h2>
   <div class="docs-container">
     <button id="load-docs" onclick="appendDocumentRow()">Load Documents</button>
-    <table id="docs-table">
+    <table id="docs-table" style="display: block;">
       <thead>
         <tr>
           <th>Document Type</th>
@@ -36,7 +36,7 @@
   <h3>upload documentation</h3>
   <form>
     <label for="file">Select file:</label>
-    <input type="file" placeholder="Upload" id="file" oninput="storeFile()"><br>
+    <input type="file" placeholder="Upload" id="file"><br>
     <label for="document-type">Document Type:</label>
     <input type="text" placeholder="document type" id="document-type"><br>
     <label for="creation-date">Creation Date:</label>
@@ -51,45 +51,33 @@
 </body>
 
 <script>
-  const documents = [];
-  async function test() {
-    const response = fetch("/auth/from-token", {
-      headers: {
-        "token": localStorage.getItem("Authorization"),
-        "Authorization": localStorage.getItem("Authorization")
-      }
-    });
-    document.getElementById("test").innerText = await response.toString();
-  }
-
-  function storeFile() {
-    const fileInput = document.getElementById("file");
-    const fileTypeInput = document.getElementById("document-type");
-    fileInput.documentType = fileTypeInput.value;
-    //documents.push(fileInput.files[0]);
-    documents.push(JSON.stringify({
-      "id": null,
-      "userId": null,
-      "documentType": fileInput.documentType,
-      "creationDate": document.getElementById("creation-date").value,
-      "expirationDate": document.getElementById("expiration-date").value,
-      "contents":
-        new Blob(
-          [fileInput.files[0]],
-          {type: "text/plain"}
-        )
-    }
-    )
-    );
-    fileInput.pop();
-
-    console.log(documents);
-  }
   async function upload() {
 
+    const documents = [];
     let totalSize = 0;
+
+    const fileInput = document.getElementById("file");
+    const fileTypeInput = document.getElementById("document-type");
+
+    let creationDate = document.getElementById("creation-date").value;
+    let expirationDate = document.getElementById("expiration-date").value;
+    creationDate = creationDate + "T00:00:00";
+    expirationDate = expirationDate + "T00:00:00";
+
+    const b64Data = await fileToBase64(fileInput.files[0]);
+
+    documents.push({
+      "id": null,
+      "userId": null,
+      "documentType": fileTypeInput.value,
+      "creationDate": creationDate,
+      "expirationDate": expirationDate,
+      "data": b64Data,
+    });
+
+    console.log(documents);
     for (const doc of documents) {
-      totalSize += doc.size;
+      totalSize += doc.data.length;
     }
 
     if (documents.length === 0) {
@@ -107,7 +95,7 @@
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "token": localStorage.getItem("Authorization"),
+        "Authorization": localStorage.getItem("Authorization")
       },
       body: data
     });
@@ -115,31 +103,45 @@
 
   }
 
+  function fileToBase64(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result.split(',')[1]);
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+  }
+
   async function appendDocumentRow() {
 
-    const table = document.getElementById("docs-table");
+    const table = document.getElementById("docs-body");
 
-    const response = fetch("http://localhost:8080/documentation/get-docs", {
+    const response = await fetch("http://localhost:8080/documentation/get-docs", {
       headers: {
-        "token": localStorage.getItem("Authorization")
+        "Authorization": localStorage.getItem("Authorization")
       }
     })
       .then(response => response.json())
       .then(documents => {
         if (documents.length === 0) {
           alert("No documents found");
+          table.innerHTML = "";
+          table.style.display = "none";
           return;
+        } else {
+          table.style.display = "block";
         }
-        for (const document of documents) {
+        for (const file of documents) {
           const row = document.createElement("tr");
+          if (file.data == null) {
+            file.data = "";
+          }
           row.innerHTML = `
-    <tr>
-      <td>${document.documentType}</td>
-      <td>${document.size}</td>
-      <td>${document.creationDate}</td>
-      <td>${document.expirationDate}</td>
-    </tr>
-    `;
+            <td>${file.documentType}</td>
+            <td>${file.data.length}</td>
+            <td>${file.creationDate}</td>
+            <td>${file.expirationDate}</td>
+            `;
           table.appendChild(row);
         }
       })

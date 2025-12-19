@@ -1,0 +1,94 @@
+{"@timestamp":"2025-12-19T09:51:13.640Z","ecs.version":"1.2.0","log.level":"INFO","message":"User:1","process.thread.name":"http-nio-8082-exec-1","log.logger":"com.Anagrafe.docs"}
+{"@timestamp":"2025-12-19T09:51:13.644Z","ecs.version":"1.2.0","log.level":"INFO","message":"Date:2023-01-01T12:00","process.thread.name":"http-nio-8082-exec-1","log.logger":"com.Anagrafe.docs"}
+{"@timestamp":"2025-12-19T09:51:13.644Z","ecs.version":"1.2.0","log.level":"INFO","message":"Expiration:2033-01-01T12:00","process.thread.name":"http-nio-8082-exec-1","log.logger":"com.Anagrafe.docs"}
+{"@timestamp":"2025-12-19T09:51:13.645Z","ecs.version":"1.2.0","log.level":"INFO","message":"Type:passport","process.thread.name":"http-nio-8082-exec-1","log.logger":"com.Anagrafe.docs"}
+{"@timestamp":"2025-12-19T09:51:32.226Z","ecs.version":"1.2.0","log.level":"INFO","message":"User:1","process.thread.name":"http-nio-8082-exec-4","log.logger":"com.Anagrafe.docs"}
+{"@timestamp":"2025-12-19T09:51:32.227Z","ecs.version":"1.2.0","log.level":"INFO","message":"Date:2023-01-01T12:00","process.thread.name":"http-nio-8082-exec-4","log.logger":"com.Anagrafe.docs"}
+{"@timestamp":"2025-12-19T09:51:32.227Z","ecs.version":"1.2.0","log.level":"INFO","message":"Expiration:2033-01-01T12:00","process.thread.name":"http-nio-8082-exec-4","log.logger":"com.Anagrafe.docs"}
+{"@timestamp":"2025-12-19T09:51:32.227Z","ecs.version":"1.2.0","log.level":"INFO","message":"Type:passport","process.thread.name":"http-nio-8082-exec-4","log.logger":"com.Anagrafe.docs"}
+{"@timestamp":"2025-12-19T09:52:17.436Z","ecs.version":"1.2.0","log.level":"INFO","message":"User:1","process.thread.name":"http-nio-8082-exec-8","log.logger":"com.Anagrafe.docs"}
+{"@timestamp":"2025-12-19T09:52:17.437Z","ecs.version":"1.2.0","log.level":"INFO","message":"Date:2023-01-01T12:00","process.thread.name":"http-nio-8082-exec-8","log.logger":"com.Anagrafe.docs"}
+{"@timestamp":"2025-12-19T09:52:17.437Z","ecs.version":"1.2.0","log.level":"INFO","message":"Expiration:2033-01-01T12:00","process.thread.name":"http-nio-8082-exec-8","log.logger":"com.Anagrafe.docs"}
+{"@timestamp":"2025-12-19T09:52:17.437Z","ecs.version":"1.2.0","log.level":"INFO","message":"Type:passport","process.thread.name":"http-nio-8082-exec-8","log.logger":"com.Anagrafe.docs"}
+{"@timestamp":"2025-12-19T09:57:40.015Z","ecs.version":"1.2.0","log.level":"INFO","message":"User:1","process.thread.name":"http-nio-8082-exec-3","log.logger":"com.Anagrafe.docs"}
+{"@timestamp":"2025-12-19T09:57:40.021Z","ecs.version":"1.2.0","log.level":"INFO","message":"Date:2023-01-01T12:00","process.thread.name":"http-nio-8082-exec-3","log.logger":"com.Anagrafe.docs"}
+{"@timestamp":"2025-12-19T09:57:40.021Z","ecs.version":"1.2.0","log.level":"INFO","message":"Expiration:2033-01-01T12:00","process.thread.name":"http-nio-8082-exec-3","log.logger":"com.Anagrafe.docs"}
+{"@timestamp":"2025-12-19T09:57:40.022Z","ecs.version":"1.2.0","log.level":"INFO","message":"Type:passport","process.thread.name":"http-nio-8082-exec-3","log.logger":"com.Anagrafe.docs"}
+{"@timestamp":"2025-12-19T09:59:09.134Z","ecs.version":"1.2.0","log.level":"INFO","message":"User:1","process.thread.name":"http-nio-8082-exec-2","log.logger":"com.Anagrafe.docs"}
+{"@timestamp":"2025-12-19T09:59:09.135Z","ecs.version":"1.2.0","log.level":"INFO","message":"Date:2023-01-01T12:00","process.thread.name":"http-nio-8082-exec-2","log.logger":"com.Anagrafe.docs"}
+{"@timestamp":"2025-12-19T09:59:09.136Z","ecs.version":"1.2.0","log.level":"INFO","message":"Expiration:2033-01-01T12:00","process.thread.name":"http-nio-8082-exec-2","log.logger":"com.Anagrafe.docs"}
+{"@timestamp":"2025-12-19T09:59:09.136Z","ecs.version":"1.2.0","log.level":"INFO","message":"Type:passport","process.thread.name":"http-nio-8082-exec-2","log.logger":"com.Anagrafe.docs"}
+{"@timestamp":"2025-12-19T10:01:51.324Z","ecs.version":"1.2.0","log.level":"INFO","message":"User:1","process.thread.name":"http-nio-8082-exec-8","log.logger":"com.Anagrafe.docs"}
+{"@timestamp":"2025-12-19T10:01:51.326Z","ecs.version":"1.2.0","log.level":"INFO","message":"Date:2023-01-01T12:00","process.thread.name":"http-nio-8082-exec-8","log.logger":"com.Anagrafe.docs"}
+{"@timestamp":"2025-12-19T10:01:51.326Z","ecs.version":"1.2.0","log.level":"INFO","message":"Expiration:2033-01-01T12:00","process.thread.name":"http-nio-8082-exec-8","log.logger":"com.Anagrafe.docs"}
+{"@timestamp":"2025-12-19T10:01:51.326Z","ecs.version":"1.2.0","log.level":"INFO","message":"Type:passport","process.thread.name":"http-nio-8082-exec-8","log.logger":"com.Anagrafe.docs"}
+{"@timestamp":"2025-12-19T10:01:51.331Z","ecs.version":"1.2.0","log.level":"INFO","message":"User:1","process.thread.name":"http-nio-8082-exec-8","log.logger":"com.Anagrafe.docs"}
+{"@timestamp":"2025-12-19T10:01:51.331Z","ecs.version":"1.2.0","log.level":"INFO","message":"Date:2023-01-01T12:00","process.thread.name":"http-nio-8082-exec-8","log.logger":"com.Anagrafe.docs"}
+{"@timestamp":"2025-12-19T10:01:51.331Z","ecs.version":"1.2.0","log.level":"INFO","message":"Expiration:2033-01-01T12:00","process.thread.name":"http-nio-8082-exec-8","log.logger":"com.Anagrafe.docs"}
+{"@timestamp":"2025-12-19T10:01:51.331Z","ecs.version":"1.2.0","log.level":"INFO","message":"Type:id","process.thread.name":"http-nio-8082-exec-8","log.logger":"com.Anagrafe.docs"}
+{"@timestamp":"2025-12-19T10:04:24.483Z","ecs.version":"1.2.0","log.level":"INFO","message":"User:1","process.thread.name":"http-nio-8082-exec-3","log.logger":"com.Anagrafe.docs"}
+{"@timestamp":"2025-12-19T10:04:24.485Z","ecs.version":"1.2.0","log.level":"INFO","message":"Date:2023-01-01T12:00","process.thread.name":"http-nio-8082-exec-3","log.logger":"com.Anagrafe.docs"}
+{"@timestamp":"2025-12-19T10:04:24.485Z","ecs.version":"1.2.0","log.level":"INFO","message":"Expiration:2033-01-01T12:00","process.thread.name":"http-nio-8082-exec-3","log.logger":"com.Anagrafe.docs"}
+{"@timestamp":"2025-12-19T10:04:24.485Z","ecs.version":"1.2.0","log.level":"INFO","message":"Type:passport","process.thread.name":"http-nio-8082-exec-3","log.logger":"com.Anagrafe.docs"}
+{"@timestamp":"2025-12-19T10:04:24.528Z","ecs.version":"1.2.0","log.level":"INFO","message":"User:1","process.thread.name":"http-nio-8082-exec-3","log.logger":"com.Anagrafe.docs"}
+{"@timestamp":"2025-12-19T10:04:24.528Z","ecs.version":"1.2.0","log.level":"INFO","message":"Date:2023-01-01T12:00","process.thread.name":"http-nio-8082-exec-3","log.logger":"com.Anagrafe.docs"}
+{"@timestamp":"2025-12-19T10:04:24.528Z","ecs.version":"1.2.0","log.level":"INFO","message":"Expiration:2033-01-01T12:00","process.thread.name":"http-nio-8082-exec-3","log.logger":"com.Anagrafe.docs"}
+{"@timestamp":"2025-12-19T10:04:24.528Z","ecs.version":"1.2.0","log.level":"INFO","message":"Type:id","process.thread.name":"http-nio-8082-exec-3","log.logger":"com.Anagrafe.docs"}
+{"@timestamp":"2025-12-19T10:54:13.095Z","ecs.version":"1.2.0","log.level":"INFO","message":"User:1","process.thread.name":"http-nio-8082-exec-1","log.logger":"com.Anagrafe.docs"}
+{"@timestamp":"2025-12-19T10:54:13.107Z","ecs.version":"1.2.0","log.level":"INFO","message":"Date:2023-01-01T12:00","process.thread.name":"http-nio-8082-exec-1","log.logger":"com.Anagrafe.docs"}
+{"@timestamp":"2025-12-19T10:54:13.107Z","ecs.version":"1.2.0","log.level":"INFO","message":"Expiration:2033-01-01T12:00","process.thread.name":"http-nio-8082-exec-1","log.logger":"com.Anagrafe.docs"}
+{"@timestamp":"2025-12-19T10:54:13.107Z","ecs.version":"1.2.0","log.level":"INFO","message":"Type:passport","process.thread.name":"http-nio-8082-exec-1","log.logger":"com.Anagrafe.docs"}
+{"@timestamp":"2025-12-19T10:54:13.252Z","ecs.version":"1.2.0","log.level":"INFO","message":"User:1","process.thread.name":"http-nio-8082-exec-1","log.logger":"com.Anagrafe.docs"}
+{"@timestamp":"2025-12-19T10:54:13.252Z","ecs.version":"1.2.0","log.level":"INFO","message":"Date:2023-01-01T12:00","process.thread.name":"http-nio-8082-exec-1","log.logger":"com.Anagrafe.docs"}
+{"@timestamp":"2025-12-19T10:54:13.252Z","ecs.version":"1.2.0","log.level":"INFO","message":"Expiration:2033-01-01T12:00","process.thread.name":"http-nio-8082-exec-1","log.logger":"com.Anagrafe.docs"}
+{"@timestamp":"2025-12-19T10:54:13.252Z","ecs.version":"1.2.0","log.level":"INFO","message":"Type:id","process.thread.name":"http-nio-8082-exec-1","log.logger":"com.Anagrafe.docs"}
+{"@timestamp":"2025-12-19T11:25:18.388Z","ecs.version":"1.2.0","log.level":"INFO","message":"User:1","process.thread.name":"http-nio-8082-exec-4","log.logger":"com.Anagrafe.docs"}
+{"@timestamp":"2025-12-19T11:25:18.390Z","ecs.version":"1.2.0","log.level":"INFO","message":"Date:2023-01-01T12:00","process.thread.name":"http-nio-8082-exec-4","log.logger":"com.Anagrafe.docs"}
+{"@timestamp":"2025-12-19T11:25:18.391Z","ecs.version":"1.2.0","log.level":"INFO","message":"Expiration:2033-01-01T12:00","process.thread.name":"http-nio-8082-exec-4","log.logger":"com.Anagrafe.docs"}
+{"@timestamp":"2025-12-19T11:25:18.391Z","ecs.version":"1.2.0","log.level":"INFO","message":"Type:passport","process.thread.name":"http-nio-8082-exec-4","log.logger":"com.Anagrafe.docs"}
+{"@timestamp":"2025-12-19T11:25:18.459Z","ecs.version":"1.2.0","log.level":"INFO","message":"User:1","process.thread.name":"http-nio-8082-exec-4","log.logger":"com.Anagrafe.docs"}
+{"@timestamp":"2025-12-19T11:25:18.460Z","ecs.version":"1.2.0","log.level":"INFO","message":"Date:2023-01-01T12:00","process.thread.name":"http-nio-8082-exec-4","log.logger":"com.Anagrafe.docs"}
+{"@timestamp":"2025-12-19T11:25:18.460Z","ecs.version":"1.2.0","log.level":"INFO","message":"Expiration:2033-01-01T12:00","process.thread.name":"http-nio-8082-exec-4","log.logger":"com.Anagrafe.docs"}
+{"@timestamp":"2025-12-19T11:25:18.460Z","ecs.version":"1.2.0","log.level":"INFO","message":"Type:id","process.thread.name":"http-nio-8082-exec-4","log.logger":"com.Anagrafe.docs"}
+{"@timestamp":"2025-12-19T11:37:35.104Z","ecs.version":"1.2.0","log.level":"INFO","message":"User:64","process.thread.name":"http-nio-8082-exec-4","log.logger":"com.Anagrafe.docs"}
+{"@timestamp":"2025-12-19T11:37:35.106Z","ecs.version":"1.2.0","log.level":"INFO","message":"Date:2023-01-01T12:00","process.thread.name":"http-nio-8082-exec-4","log.logger":"com.Anagrafe.docs"}
+{"@timestamp":"2025-12-19T11:37:35.106Z","ecs.version":"1.2.0","log.level":"INFO","message":"Expiration:2033-01-01T12:00","process.thread.name":"http-nio-8082-exec-4","log.logger":"com.Anagrafe.docs"}
+{"@timestamp":"2025-12-19T11:37:35.106Z","ecs.version":"1.2.0","log.level":"INFO","message":"Type:passport","process.thread.name":"http-nio-8082-exec-4","log.logger":"com.Anagrafe.docs"}
+{"@timestamp":"2025-12-19T11:37:35.110Z","ecs.version":"1.2.0","log.level":"INFO","message":"User:64","process.thread.name":"http-nio-8082-exec-4","log.logger":"com.Anagrafe.docs"}
+{"@timestamp":"2025-12-19T11:37:35.111Z","ecs.version":"1.2.0","log.level":"INFO","message":"Date:2023-01-01T12:00","process.thread.name":"http-nio-8082-exec-4","log.logger":"com.Anagrafe.docs"}
+{"@timestamp":"2025-12-19T11:37:35.111Z","ecs.version":"1.2.0","log.level":"INFO","message":"Expiration:2033-01-01T12:00","process.thread.name":"http-nio-8082-exec-4","log.logger":"com.Anagrafe.docs"}
+{"@timestamp":"2025-12-19T11:37:35.111Z","ecs.version":"1.2.0","log.level":"INFO","message":"Type:id","process.thread.name":"http-nio-8082-exec-4","log.logger":"com.Anagrafe.docs"}
+{"@timestamp":"2025-12-19T11:52:50.088Z","ecs.version":"1.2.0","log.level":"INFO","message":"User:62","process.thread.name":"http-nio-8082-exec-7","log.logger":"com.Anagrafe.docs"}
+{"@timestamp":"2025-12-19T11:52:50.088Z","ecs.version":"1.2.0","log.level":"INFO","message":"Date:null","process.thread.name":"http-nio-8082-exec-7","log.logger":"com.Anagrafe.docs"}
+{"@timestamp":"2025-12-19T11:52:50.089Z","ecs.version":"1.2.0","log.level":"INFO","message":"Expiration:null","process.thread.name":"http-nio-8082-exec-7","log.logger":"com.Anagrafe.docs"}
+{"@timestamp":"2025-12-19T11:52:50.089Z","ecs.version":"1.2.0","log.level":"INFO","message":"Type:","process.thread.name":"http-nio-8082-exec-7","log.logger":"com.Anagrafe.docs"}
+{"@timestamp":"2025-12-19T14:20:46.953Z","ecs.version":"1.2.0","log.level":"INFO","message":"Fetching documents for userId: 1","process.thread.name":"http-nio-8082-exec-3","log.logger":"com.Anagrafe.docs"}
+{"@timestamp":"2025-12-19T14:20:47.301Z","ecs.version":"1.2.0","log.level":"INFO","message":"Found 11 documents for userId: 1","process.thread.name":"http-nio-8082-exec-3","log.logger":"com.Anagrafe.docs"}
+{"@timestamp":"2025-12-19T14:47:43.402Z","ecs.version":"1.2.0","log.level":"INFO","message":"Fetching documents for userId: 64","process.thread.name":"http-nio-8082-exec-5","log.logger":"com.Anagrafe.docs"}
+{"@timestamp":"2025-12-19T14:47:43.423Z","ecs.version":"1.2.0","log.level":"INFO","message":"Found 4 documents for userId: 64","process.thread.name":"http-nio-8082-exec-5","log.logger":"com.Anagrafe.docs"}
+{"@timestamp":"2025-12-19T14:48:05.169Z","ecs.version":"1.2.0","log.level":"INFO","message":"Fetching documents for userId: 62","process.thread.name":"http-nio-8082-exec-8","log.logger":"com.Anagrafe.docs"}
+{"@timestamp":"2025-12-19T14:48:05.173Z","ecs.version":"1.2.0","log.level":"INFO","message":"Found 3 documents for userId: 62","process.thread.name":"http-nio-8082-exec-8","log.logger":"com.Anagrafe.docs"}
+{"@timestamp":"2025-12-19T14:50:28.906Z","ecs.version":"1.2.0","log.level":"INFO","message":"Fetching documents for userId: 62","process.thread.name":"http-nio-8082-exec-7","log.logger":"com.Anagrafe.docs"}
+{"@timestamp":"2025-12-19T14:50:28.912Z","ecs.version":"1.2.0","log.level":"INFO","message":"Found 3 documents for userId: 62","process.thread.name":"http-nio-8082-exec-7","log.logger":"com.Anagrafe.docs"}
+{"@timestamp":"2025-12-19T14:50:38.441Z","ecs.version":"1.2.0","log.level":"INFO","message":"Fetching documents for userId: 62","process.thread.name":"http-nio-8082-exec-5","log.logger":"com.Anagrafe.docs"}
+{"@timestamp":"2025-12-19T14:50:38.447Z","ecs.version":"1.2.0","log.level":"INFO","message":"Found 3 documents for userId: 62","process.thread.name":"http-nio-8082-exec-5","log.logger":"com.Anagrafe.docs"}
+{"@timestamp":"2025-12-19T14:52:43.143Z","ecs.version":"1.2.0","log.level":"INFO","message":"Fetching documents for userId: 62","process.thread.name":"http-nio-8082-exec-3","log.logger":"com.Anagrafe.docs"}
+{"@timestamp":"2025-12-19T14:52:43.151Z","ecs.version":"1.2.0","log.level":"INFO","message":"Found 3 documents for userId: 62","process.thread.name":"http-nio-8082-exec-3","log.logger":"com.Anagrafe.docs"}
+{"@timestamp":"2025-12-19T14:52:51.111Z","ecs.version":"1.2.0","log.level":"INFO","message":"Fetching documents for userId: 62","process.thread.name":"http-nio-8082-exec-6","log.logger":"com.Anagrafe.docs"}
+{"@timestamp":"2025-12-19T14:52:51.113Z","ecs.version":"1.2.0","log.level":"INFO","message":"Found 3 documents for userId: 62","process.thread.name":"http-nio-8082-exec-6","log.logger":"com.Anagrafe.docs"}
+{"@timestamp":"2025-12-19T14:53:47.522Z","ecs.version":"1.2.0","log.level":"INFO","message":"Fetching documents for userId: 62","process.thread.name":"http-nio-8082-exec-4","log.logger":"com.Anagrafe.docs"}
+{"@timestamp":"2025-12-19T14:53:47.528Z","ecs.version":"1.2.0","log.level":"INFO","message":"Found 3 documents for userId: 62","process.thread.name":"http-nio-8082-exec-4","log.logger":"com.Anagrafe.docs"}
+{"@timestamp":"2025-12-19T15:23:17.535Z","ecs.version":"1.2.0","log.level":"INFO","message":"Fetching documents for userId: 62","process.thread.name":"http-nio-8082-exec-8","log.logger":"com.Anagrafe.docs"}
+{"@timestamp":"2025-12-19T15:23:17.544Z","ecs.version":"1.2.0","log.level":"INFO","message":"Found 3 documents for userId: 62","process.thread.name":"http-nio-8082-exec-8","log.logger":"com.Anagrafe.docs"}
+{"@timestamp":"2025-12-19T15:24:44.485Z","ecs.version":"1.2.0","log.level":"INFO","message":"Fetching documents for userId: 62","process.thread.name":"http-nio-8082-exec-3","log.logger":"com.Anagrafe.docs"}
+{"@timestamp":"2025-12-19T15:24:44.488Z","ecs.version":"1.2.0","log.level":"INFO","message":"Found 3 documents for userId: 62","process.thread.name":"http-nio-8082-exec-3","log.logger":"com.Anagrafe.docs"}
+{"@timestamp":"2025-12-19T15:28:20.842Z","ecs.version":"1.2.0","log.level":"INFO","message":"Fetching documents for userId: 62","process.thread.name":"http-nio-8082-exec-4","log.logger":"com.Anagrafe.docs"}
+{"@timestamp":"2025-12-19T15:28:20.847Z","ecs.version":"1.2.0","log.level":"INFO","message":"Found 3 documents for userId: 62","process.thread.name":"http-nio-8082-exec-4","log.logger":"com.Anagrafe.docs"}
+{"@timestamp":"2025-12-19T15:28:24.251Z","ecs.version":"1.2.0","log.level":"INFO","message":"Fetching documents for userId: 62","process.thread.name":"http-nio-8082-exec-2","log.logger":"com.Anagrafe.docs"}
+{"@timestamp":"2025-12-19T15:28:24.278Z","ecs.version":"1.2.0","log.level":"INFO","message":"Found 3 documents for userId: 62","process.thread.name":"http-nio-8082-exec-2","log.logger":"com.Anagrafe.docs"}
+{"@timestamp":"2025-12-19T15:28:27.524Z","ecs.version":"1.2.0","log.level":"INFO","message":"Fetching documents for userId: 62","process.thread.name":"http-nio-8082-exec-10","log.logger":"com.Anagrafe.docs"}
+{"@timestamp":"2025-12-19T15:28:27.526Z","ecs.version":"1.2.0","log.level":"INFO","message":"Found 3 documents for userId: 62","process.thread.name":"http-nio-8082-exec-10","log.logger":"com.Anagrafe.docs"}
+{"@timestamp":"2025-12-19T15:29:32.006Z","ecs.version":"1.2.0","log.level":"INFO","message":"Fetching documents for userId: 62","process.thread.name":"http-nio-8082-exec-1","log.logger":"com.Anagrafe.docs"}
+{"@timestamp":"2025-12-19T15:29:32.011Z","ecs.version":"1.2.0","log.level":"INFO","message":"Found 3 documents for userId: 62","process.thread.name":"http-nio-8082-exec-1","log.logger":"com.Anagrafe.docs"}
+{"@timestamp":"2025-12-19T15:30:29.059Z","ecs.version":"1.2.0","log.level":"INFO","message":"Fetching documents for userId: 62","process.thread.name":"http-nio-8082-exec-6","log.logger":"com.Anagrafe.docs"}
+{"@timestamp":"2025-12-19T15:30:29.062Z","ecs.version":"1.2.0","log.level":"INFO","message":"Found 3 documents for userId: 62","process.thread.name":"http-nio-8082-exec-6","log.logger":"com.Anagrafe.docs"}
