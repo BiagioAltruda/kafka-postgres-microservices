@@ -6,6 +6,9 @@
    https://logging.apache.org/xml/ns/log4j-config-2.xsd">
   
   <Appenders>
+    <Console name="CONSOLE" target="SYSTEM_OUT">
+      <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss} [%t] %-5level %logger - %msg%n"/>
+      </Console>
     <File name="FILE"
       fileName="target/logs.json">
       <PatternLayout pattern="%d{ISO8601} [%t] %-5p %c{1} - %m%n"/>
@@ -35,6 +38,7 @@
     </Logger>
     <Root level="INFO">
       <AppenderRef ref="RollingFile"/>
+      <AppenderRef ref="CONSOLE"/>
     </Root>
 
     <Logger name="com.Anagrafe.docs" level="info" additivity="false">
